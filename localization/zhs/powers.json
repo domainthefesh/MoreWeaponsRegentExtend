@@ -1,0 +1,10 @@
+{
+    "MORE_WEAPONS_REGENT_EXTEND_POWER_SOVEREIGN_SHIELD_POWER.title": "晶态",
+    "MORE_WEAPONS_REGENT_EXTEND_POWER_SOVEREIGN_SHIELD_POWER.description": "当受到超出格挡的伤害时，消耗君王之盾。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_POWER_BLEED_POWER.title": "流血",
+    "MORE_WEAPONS_REGENT_EXTEND_POWER_BLEED_POWER.description": "每次受到攻击伤害时，额外损失3%最大血量。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_POWER_KING_GUN_POWER.title": "王之枪",
+    "MORE_WEAPONS_REGENT_EXTEND_POWER_KING_GUN_POWER.description": "回合开始时，可选择消耗一张攻击牌。造成相当于其伤害+当前层数的伤害.\n每次铸造增加对应层数。\n开启后，铸造只会生成子弹。"
+}

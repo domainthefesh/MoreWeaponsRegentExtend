@@ -1,0 +1,31 @@
+{
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_BLUDGEON.title": "君王重锤",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_BLUDGEON.description": "造成{Damage:diff()}点伤害。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_APOCALYPSE_LONGBOW.title": "天启长弓",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_APOCALYPSE_LONGBOW.description": "造成{Damage:diff()}点伤害。\n每锻造15：天启 1（当前天启{DebuffCount}）",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_CRYSTAL_BLADE.title": "君王晶刃",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_CRYSTAL_BLADE.description": "造成{Damage:diff()}点伤害，{Repeat}次。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_CRYSTAL_DAGGER.title": "水晶小刀",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_CRYSTAL_DAGGER.description": "造成{Damage:diff()}点伤害。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SHIELD.title": "君王之盾",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SHIELD.description": "获得{Block:diff()}点[gold]格挡[/gold].\n造成等同于当前格挡的伤害。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SPEAR.title": "君王长矛",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SPEAR.description": "造成{Damage:diff()}点伤害。\n铸造时：额外铸造2。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_AXE.title": "君王重斧",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_AXE.description": "造成{Damage:diff()}点伤害。\n使目标获得2回合[purple]流血[/purple]。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_GUN.title": "君王新枪",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_GUN.description": "铸造 5。\n回合开始时，选择消耗一张攻击牌。\n造成相当于其与铸造层数之和的伤害。\n铸造将会生成子弹。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SCYTHE.title": "君王镰刀",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SCYTHE.description": "造成{Damage:diff()}点伤害。\n给予等同于铸造数值一半的[purple]灾厄[/purple]。",
+
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_BULLET.title": "子弹",
+    "MORE_WEAPONS_REGENT_EXTEND_CARD_BULLET.description": "造成{Damage:diff()}点伤害。"
+}
