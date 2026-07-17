@@ -1,0 +1,14 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+/animations/
+/bin/
+/fonts/
+/images/
+/scenes/
+/shaders/
+/sts2_decompiled/
+/themes/
+/tutorials/
+/.claude/
+*.pck

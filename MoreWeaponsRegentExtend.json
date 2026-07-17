@@ -1,0 +1,12 @@
+{
+  "id": "MoreWeaponsRegentExtend",         
+  "name": "百般武艺-储君扩展",
+  "author": "Halloween",
+  "description": "让储君不止是铸造出大剑.",
+  "version": "0.1.0",
+  "min_game_version": "0.109.0",
+  "has_pck": true,       
+  "has_dll": true,      
+  "dependencies": [{ "id": "STS2-RitsuLib" }],
+  "affects_gameplay": true
+}
