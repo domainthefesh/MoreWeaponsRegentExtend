@@ -11,4 +11,5 @@
 /themes/
 /tutorials/
 /.claude/
+/.agents/
 *.pck

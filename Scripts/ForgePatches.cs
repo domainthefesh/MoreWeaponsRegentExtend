@@ -284,21 +284,74 @@ public class SwordSageModPatch : IPatchMethod
     public static bool IsCritical => false;
 
     public static ModPatchTarget[] GetTargets() =>
-        [new(typeof(SwordSagePower), "TryAddReplays", new Type[] { typeof(CardModel), typeof(int) })];
+        [new(typeof(SwordSagePower), nameof(SwordSagePower.AfterPowerAmountChanged))];
 
-    public static bool Prefix(
+    public static void Postfix(
         SwordSagePower __instance,
-        CardModel card,
-        int amount)
+        PlayerChoiceContext choiceContext,
+        PowerModel power,
+        decimal amount,
+        Creature? applier,
+        CardModel? cardSource)
     {
-        if (card.Owner != __instance.Owner!.Player)
+        if (power is not SwordSagePower || power.Owner != __instance.Owner)
+            return;
+
+        var cards = __instance.Owner?.Player?.PlayerCombatState?.AllCards ?? Array.Empty<CardModel>();
+        foreach (var card in cards)
+            TryAddReplayToModForgeCard(__instance, card, (int)amount);
+    }
+
+    public static bool TryAddReplayToModForgeCard(SwordSagePower instance, CardModel card, int amount)
+    {
+        if (card.Owner != instance.Owner?.Player)
             return false;
 
         if (!ForgeRandomizePatch.IsModForgeCard(card))
-            return true;
+            return false;
 
         card.BaseReplayCount += amount;
-        return false; // 跳过原方法，已自行处理
+        return true;
+    }
+}
+
+// 补丁：SwordSagePower 已存在时，新进入战斗的模组锻造卡也获得重放次数
+public class SwordSageCardEnteredModPatch : IPatchMethod
+{
+    public static string PatchId => "more_weapons_sword_sage_card_entered_mod";
+    public static string Description => "SwordSagePower grants replays to mod forge cards entering combat";
+    public static bool IsCritical => false;
+
+    public static ModPatchTarget[] GetTargets() =>
+        [new(typeof(SwordSagePower), nameof(SwordSagePower.AfterCardEnteredCombat))];
+
+    public static void Postfix(SwordSagePower __instance, CardModel card)
+    {
+        if (card.IsClone)
+            return;
+
+        SwordSageModPatch.TryAddReplayToModForgeCard(__instance, card, __instance.Amount);
+    }
+}
+
+// 补丁：SwordSagePower 移除时同步扣回模组锻造卡的重放次数
+public class SwordSageRemovedModPatch : IPatchMethod
+{
+    public static string PatchId => "more_weapons_sword_sage_removed_mod";
+    public static string Description => "SwordSagePower removes replays from mod forge cards when removed";
+    public static bool IsCritical => false;
+
+    public static ModPatchTarget[] GetTargets() =>
+        [new(typeof(SwordSagePower), nameof(SwordSagePower.AfterRemoved))];
+
+    public static void Postfix(SwordSagePower __instance, Creature oldOwner)
+    {
+        var cards = oldOwner.Player?.PlayerCombatState?.AllCards ?? Array.Empty<CardModel>();
+        foreach (var card in cards)
+        {
+            if (ForgeRandomizePatch.IsModForgeCard(card))
+                card.BaseReplayCount -= __instance.Amount;
+        }
     }
 }
 

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
@@ -42,11 +43,32 @@ public abstract class MoreWeaponsCardBase : ModCardTemplate
     // === VFX 清理：尝试移除浮空剑 VFX ===
     protected void RemoveVfxIfAny()
     {
+        NWeaponVfx.RemoveFor(this);
+
         try
         {
             if (Owner != null)
                 SovereignBlade.GetVfxNode(Owner, this)?.RemoveSovereignBlade();
         }
         catch { /* VFX 清理失败不抛异常 */ }
+    }
+
+    protected NWeaponVfx EnsureWeaponVfx(string sceneName) => NWeaponVfx.EnsureAttached(this, sceneName);
+
+    protected void RemoveWeaponVfx() => NWeaponVfx.RemoveFor(this);
+
+    protected Task TriggerWeaponAttack(Creature? target)
+    {
+        NWeaponVfx.AttackFor(this, target);
+        return Task.CompletedTask;
+    }
+
+    protected Task TriggerWeaponAttackFirstEnemy()
+    {
+        var enemies = CombatState?.HittableEnemies;
+        if (enemies != null && enemies.Count > 0)
+            NWeaponVfx.AttackFor(this, enemies[0]);
+
+        return Task.CompletedTask;
     }
 }

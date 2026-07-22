@@ -66,9 +66,11 @@ public class SovereignScythe : MoreWeaponsCardBase
 
         if (HasSeekingEdge)
             await cmd.TargetingAllOpponents(CombatState!)
+                .BeforeDamage(TriggerWeaponAttackFirstEnemy)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3").Execute(choiceContext);
         else
             await cmd.Targeting(target)
+                .BeforeDamage(() => TriggerWeaponAttack(target))
                 .WithHitVfxNode(NBigSlashVfx.Create).WithHitVfxNode(NBigSlashImpactVfx.Create).Execute(choiceContext);
 
         if (GetOwnerParryAmount(this) > 0m)
@@ -88,7 +90,7 @@ public class SovereignScythe : MoreWeaponsCardBase
 
     public override void AfterTransformedFrom()
     {
-        _vfx?.RemoveWeapon();
+        RemoveWeaponVfx();
         _vfx = null;
     }
 
@@ -99,15 +101,12 @@ public class SovereignScythe : MoreWeaponsCardBase
         {
             if (_vfx == null)
             {
-                _vfx = NWeaponVfx.Create(this, "SovereignScythe.tscn");
-                var cn = NCombatRoom.Instance?.GetCreatureNode(Owner?.Creature);
-                cn?.AddChildSafely(_vfx.Root);
-                _vfx.Root.Position = Godot.Vector2.Zero;
+                _vfx = EnsureWeaponVfx("SovereignScythe.tscn");
             }
         }
         if (card.Pile?.Type == PileType.Exhaust)
         {
-            _vfx?.RemoveWeapon();
+            RemoveWeaponVfx();
             _vfx = null;
         }
         return Task.CompletedTask;

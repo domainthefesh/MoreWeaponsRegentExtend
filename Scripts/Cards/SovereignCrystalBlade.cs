@@ -65,9 +65,11 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
 
         if (HasSeekingEdge)
             await attackCmd.TargetingAllOpponents(CombatState!)
+                .BeforeDamage(TriggerWeaponAttackFirstEnemy)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3").Execute(choiceContext);
         else
             await attackCmd.Targeting(cardPlay.Target!)
+                .BeforeDamage(() => TriggerWeaponAttack(cardPlay.Target))
                 .WithHitVfxNode(NBigSlashVfx.Create).WithHitVfxNode(NBigSlashImpactVfx.Create).Execute(choiceContext);
 
         if (GetOwnerParryAmount(this) > 0m)
@@ -90,7 +92,7 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
 
     public override void AfterTransformedFrom()
     {
-        _vfx?.RemoveWeapon();
+        RemoveWeaponVfx();
         _vfx = null;
     }
 
@@ -101,15 +103,12 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
         {
             if (_vfx == null)
             {
-                _vfx = NWeaponVfx.Create(this, "SovereignCrystalBlade.tscn");
-                var cn = NCombatRoom.Instance?.GetCreatureNode(Owner?.Creature);
-                cn?.AddChildSafely(_vfx.Root);
-                _vfx.Root.Position = Godot.Vector2.Zero;
+                _vfx = EnsureWeaponVfx("SovereignCrystalBlade.tscn");
             }
         }
         if (card.Pile?.Type == PileType.Exhaust)
         {
-            _vfx?.RemoveWeapon();
+            RemoveWeaponVfx();
             _vfx = null;
         }
         return Task.CompletedTask;

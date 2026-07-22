@@ -27,6 +27,8 @@ public class Entry
         patcher.RegisterPatch<ForgeRandomizePatch>();
         patcher.RegisterPatch<ConquerorModPatch>();
         patcher.RegisterPatch<SwordSageModPatch>();
+        patcher.RegisterPatch<SwordSageCardEnteredModPatch>();
+        patcher.RegisterPatch<SwordSageRemovedModPatch>();
         patcher.RegisterPatch<SummonForthModPatch>();
         patcher.RegisterPatch<ParryHoverModPatch>();
         if (!patcher.PatchAll())

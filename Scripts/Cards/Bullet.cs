@@ -60,6 +60,7 @@ public class Bullet : MoreWeaponsCardBase
             .WithAttackerAnim(animName, delay)
             .WithAttackerFx(null, sfxPath)
             .Targeting(cardPlay.Target!)
+            .BeforeDamage(() => TriggerWeaponAttack(cardPlay.Target))
             .WithHitVfxNode(NBigSlashVfx.Create)
             .WithHitVfxNode(NBigSlashImpactVfx.Create)
             .Execute(choiceContext);
@@ -87,7 +88,7 @@ public class Bullet : MoreWeaponsCardBase
 
     public override void AfterTransformedFrom()
     {
-        _vfx?.RemoveWeapon();
+        RemoveWeaponVfx();
         _vfx = null;
     }
 
@@ -98,15 +99,12 @@ public class Bullet : MoreWeaponsCardBase
         {
             if (_vfx == null)
             {
-                _vfx = NWeaponVfx.Create(this, "Bullet.tscn");
-                var cn = NCombatRoom.Instance?.GetCreatureNode(Owner?.Creature);
-                cn?.AddChildSafely(_vfx.Root);
-                _vfx.Root.Position = Godot.Vector2.Zero;
+                _vfx = EnsureWeaponVfx("Bullet.tscn");
             }
         }
         if (card.Pile?.Type == PileType.Exhaust)
         {
-            _vfx?.RemoveWeapon();
+            RemoveWeaponVfx();
             _vfx = null;
         }
         return Task.CompletedTask;

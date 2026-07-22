@@ -68,9 +68,11 @@ public class SovereignBludgeon : MoreWeaponsCardBase
 
         if (HasSeekingEdge)
             await attackCmd.TargetingAllOpponents(CombatState!)
+                .BeforeDamage(TriggerWeaponAttackFirstEnemy)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3").Execute(choiceContext);
         else
             await attackCmd.Targeting(cardPlay.Target!)
+                .BeforeDamage(() => TriggerWeaponAttack(cardPlay.Target))
                 .WithHitVfxNode(NBigSlashVfx.Create).WithHitVfxNode(NBigSlashImpactVfx.Create).Execute(choiceContext);
 
         if (GetOwnerParryAmount(this) > 0m)
@@ -86,7 +88,7 @@ public class SovereignBludgeon : MoreWeaponsCardBase
 
     public override void AfterTransformedFrom()
     {
-        _vfx?.RemoveWeapon();
+        RemoveWeaponVfx();
         _vfx = null;
     }
 
@@ -99,10 +101,7 @@ public class SovereignBludgeon : MoreWeaponsCardBase
         {
             if (_vfx == null)
             {
-                _vfx = NWeaponVfx.Create(this, "SovereignBludgeon.tscn");
-                var creatureNode = NCombatRoom.Instance?.GetCreatureNode(Owner?.Creature);
-                creatureNode?.AddChildSafely(_vfx.Root);
-                _vfx.Root.Position = Vector2.Zero;
+                _vfx = EnsureWeaponVfx("SovereignBludgeon.tscn");
             }
             // 锻造闪光特效
             NCardSmithVfx? cardVfx = null;
@@ -119,7 +118,7 @@ public class SovereignBludgeon : MoreWeaponsCardBase
         // 卡牌消耗：移除 VFX
         if (card.Pile?.Type == PileType.Exhaust)
         {
-            _vfx?.RemoveWeapon();
+            RemoveWeaponVfx();
             _vfx = null;
         }
 
