@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignSpear.png" id="1_icon"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_slash.svg" id="2_accent"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_spark.svg" id="3_spark"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_halo.svg" id="4_halo"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_add"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.08, 0.45, 1)
+colors = PackedColorArray(0.4, 1, 0.38, 0, 0.4, 1, 0.38, 1, 1, 1, 1, 0.9, 0.4, 1, 0.38, 0)
+
+[node name="SovereignSpearCastVfx" type="Node2D"]
+z_index = 2
+
+[node name="Halo" type="Sprite2D" parent="."]
+material = SubResource("Material_add")
+modulate = Color(0.4, 1, 0.38, 0.58)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("4_halo")
+
+[node name="Slash" type="Sprite2D" parent="."]
+material = SubResource("Material_add")
+modulate = Color(0.4, 1, 0.38, 0.78)
+scale = Vector2(0.9, 0.4)
+texture = ExtResource("2_accent")
+
+[node name="Icon" type="Sprite2D" parent="."]
+offset = Vector2(0.000, 7.000)
+scale = Vector2(0.2335558, 0.2335558)
+texture = ExtResource("1_icon")
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+material = SubResource("Material_add")
+emitting = false
+amount = 16
+lifetime = 0.52
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("3_spark")
+direction = Vector2(1, -0.6)
+spread = 15.0
+gravity = Vector2(0, 40)
+initial_velocity_min = 150.0
+initial_velocity_max = 310.0
+scale_amount_min = 0.08
+scale_amount_max = 0.23
+color_ramp = SubResource("Gradient_fade")
+emission_shape = 1
+emission_sphere_radius = 10.0

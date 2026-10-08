@@ -1,31 +1,42 @@
 {
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_BLUDGEON.title": "君王重锤",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_BLUDGEON.description": "造成{Damage:diff()}点伤害。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_APOCALYPSE_LONGBOW.title": "天启长弓",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_APOCALYPSE_LONGBOW.description": "造成{Damage:diff()}点伤害。\n每锻造15：天启 1（当前天启{DebuffCount}）",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_CRYSTAL_BLADE.title": "君王晶刃",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_CRYSTAL_BLADE.description": "造成{Damage:diff()}点伤害，{Repeat}次。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_CRYSTAL_DAGGER.title": "水晶小刀",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_CRYSTAL_DAGGER.description": "造成{Damage:diff()}点伤害。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SHIELD.title": "君王之盾",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SHIELD.description": "获得{Block:diff()}点[gold]格挡[/gold].\n造成等同于当前格挡的伤害。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SPEAR.title": "君王长矛",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SPEAR.description": "造成{Damage:diff()}点伤害。\n铸造时：额外铸造2。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_AXE.title": "君王重斧",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_AXE.description": "造成{Damage:diff()}点伤害。\n使目标获得2回合[purple]流血[/purple]。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_GUN.title": "君王新枪",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_GUN.description": "铸造 5。\n回合开始时，选择消耗一张攻击牌。\n造成相当于其与铸造层数之和的伤害。\n铸造将会生成子弹。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SCYTHE.title": "君王镰刀",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SCYTHE.description": "造成{Damage:diff()}点伤害。\n给予等同于铸造数值一半的[purple]灾厄[/purple]。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_BULLET.title": "子弹",
-    "MORE_WEAPONS_REGENT_EXTEND_CARD_BULLET.description": "造成{Damage:diff()}点伤害。"
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_BLUDGEON.title": "君王重锤",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_BLUDGEON.description": "造成{Damage:diff()}点伤害。\n给予{HeavyPressurePower:diff()}层[purple]重压[/purple]。\n重压门槛：{PressureThreshold:diff()}。{Reward1:cond:\n额外给予目标1层[purple]缩小[/purple]。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_APOCALYPSE_LONGBOW.title": "邪皇圣弓",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_APOCALYPSE_LONGBOW.description": "造成{Damage:diff()}点伤害。\n每锻造15：天启 1（当前天启{DebuffCount}）{Reward2:cond:\n先给予目标1层[purple]命锁[/purple]。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_CRYSTAL_BLADE.title": "君王晶刃",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_CRYSTAL_BLADE.description": "造成{Damage:diff()}点伤害，{Repeat}次。{Reward1:cond:\n碎裂生成{ShatterCount}张水晶小刀。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_CRYSTAL_DAGGER.title": "水晶小刀",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_CRYSTAL_DAGGER.description": "造成{Damage:diff()}点伤害。{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SHIELD.title": "君王之盾",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SHIELD.description": "获得{Reward2:cond:{FirstAvailable:cond:{FirstBlock:diff()}|{Block:diff()}}|{Block:diff()}}点[gold]格挡[/gold]。\n造成等同于当前格挡{Reward3:cond:加4|}的伤害。{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SPEAR.title": "君王长矛",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SPEAR.description": "造成{Damage:diff()}点伤害。\n铸造时：额外铸造{ForgeBonus}。{Reward2:cond:\n目标意图为攻击时，先给予其1层[purple]易伤[/purple]。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_AXE.title": "君王重斧",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_AXE.description": "造成{Damage:diff()}点伤害。\n使目标获得2回合[purple]流血[/purple]。{Reward2:cond:\n给予目标2层[purple]撕裂[/purple]。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_GUN.title": "皇室猎枪",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_GUN.description": "铸造 5。\n回合开始时，选择消耗一张攻击牌。\n造成相当于其与铸造层数之和的伤害。\n铸造将会生成子弹。{Reward2:cond:\n王之枪消耗子弹时，额外造成一次伤害。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SCYTHE.title": "君王镰刀",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_SCYTHE.description": "造成{Damage:diff()}点伤害。\n给予{DoomPower:diff()}点[purple]灾厄[/purple]。{Reward2:cond:\n[gold]斩杀[/gold]：获得4点最大生命值。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_BULLET.title": "子弹",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_BULLET.description": "造成{Damage:diff()}点伤害。{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_HANDY_WEAPON.title": "趁手兵器",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_HANDY_WEAPON.description": "[gold]铸造[/gold] {Forge:diff()}。",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_NEPTUNE_TRIDENT.title": "海王三叉戟",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_NEPTUNE_TRIDENT.description": "造成{Damage:diff()}点伤害。\n获得{LightningRodPower:diff()}层[gold]引雷[/gold]。\n打出后，下回合从任意牌堆返回手牌。{Reward1:cond:\n每场战斗首次打出时，获得10层[gold]雷霆[/gold]。|}{Reward2:cond:\n先给予目标1层[purple]海啸[/purple]。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_KATANA.title": "天皇太刀",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_KATANA.description": "造成{Damage:diff()}点伤害。\n伤害结算后，若目标生命值低于最大生命值的{ExecuteThreshold}%，立即将其处决。{Reward1:cond:\n每场战斗首次打出时，伤害增加50%。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_WINGS.title": "君王之翼",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_WINGS.description": "获得{HighGroundPower:diff()}层[gold]居高临下[/gold]。\n此牌每累计受到{ForgeStep}点[gold]铸造[/gold]，额外获得1层。{Reward2:cond:\n居高临下的减伤和增伤均为75%。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_DAGGER.title": "君王短匕",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SOVEREIGN_DAGGER.description": "造成{Damage:diff()}点伤害。\n此牌的[gold]铸造[/gold]伤害加成减半。\n[gold]斩杀[/gold]：获得{Gold}金币。{Reward2:cond:\n目标无攻击意图或金币超过300时，造成三倍伤害。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SEA_CALMING_STAFF.title": "定海圣棍",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_SEA_CALMING_STAFF.description": "[gold]架势[/gold]：{Stance:choose(0|1|2):轻挥|横扫|重劈}。\n{Stance:choose(0|1|2):造成{Damage:diff()}点伤害。|对所有敌人造成{Damage:diff()}点伤害，{Hits}次。|造成{Damage:diff()}点伤害。\n若伤害突破[gold]格挡[/gold]，使目标眩晕{StunTurns}回合。}\n打出后切换架势。{Reward1:cond:\n每场战斗首次打出后返回手牌。|}{Reward2:cond:\n每切换3次架势，获得3点能量。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_GALAXY_TRAJECTORY_CANNON.title": "银河轨迹炮",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_GALAXY_TRAJECTORY_CANNON.description": "对所有敌人造成{Damage:diff()}点伤害。\n拥有[purple]追踪之刃[/purple]时，额外打出一次。\n[gold]铸造[/gold]伤害加成为10倍。\n充能：{ChargesPlayed}/{ChargesRequired}{CannonNumber:choose(0):|（{CannonNumber}号炮）}。{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_CANNON_CHARGE.title": "充能",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_CANNON_CHARGE.description": "为{CannonNumber:choose(0):轨迹炮|{CannonNumber}号轨迹炮}充能。\n第{ChargeSlot}枚充能。",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_HOLY_CODEX.title": "光之圣典",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_HOLY_CODEX.description": "造成{Damage:diff()}点伤害。\n[gold]赐福[/gold]{Blessings}。\n每累计[gold]铸造[/gold]{ForgeStep}，额外[gold]赐福[/gold]1。{Reward2:cond:\n每场战斗首次打出时，恢复6点生命值。|}{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_ROYAL_BRASS_KNUCKLES.title": "皇家指虎",
+  "MORE_WEAPONS_REGENT_EXTEND_CARD_ROYAL_BRASS_KNUCKLES.description": "造成{Damage:diff()}点伤害。{HasParry:cond:\n获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。|}"
 }

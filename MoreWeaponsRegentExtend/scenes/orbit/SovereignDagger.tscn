@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignDagger.png" id="1_weapon"]
+
+[node name="SovereignDaggerOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+rotation = 1.5707963
+scale = Vector2(0.0798611, 0.0798611)
+offset = Vector2(0.500, 9.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -63.500
+offset_top = -25.766
+offset_right = 63.500
+offset_bottom = 25.766
+mouse_filter = 2

@@ -1,10 +1,26 @@
 {
-    "MORE_WEAPONS_REGENT_EXTEND_POWER_SOVEREIGN_SHIELD_POWER.title": "晶态",
-    "MORE_WEAPONS_REGENT_EXTEND_POWER_SOVEREIGN_SHIELD_POWER.description": "当受到超出格挡的伤害时，消耗君王之盾。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_POWER_BLEED_POWER.title": "流血",
-    "MORE_WEAPONS_REGENT_EXTEND_POWER_BLEED_POWER.description": "每次受到攻击伤害时，额外损失3%最大血量。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_POWER_KING_GUN_POWER.title": "王之枪",
-    "MORE_WEAPONS_REGENT_EXTEND_POWER_KING_GUN_POWER.description": "回合开始时，可选择消耗一张攻击牌。造成相当于其伤害+当前层数的伤害.\n每次铸造增加对应层数。\n开启后，铸造只会生成子弹。"
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_SOVEREIGN_SHIELD_POWER.title": "晶态",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_SOVEREIGN_SHIELD_POWER.description": "当受到超出格挡的伤害时，消耗君王之盾。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_BLEED_POWER.title": "流血",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_BLEED_POWER.description": "每次受到攻击伤害时，额外损失{BleedPercent}%最大生命值。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_KING_GUN_POWER.title": "王之枪",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_KING_GUN_POWER.description": "回合开始时，可选择消耗一张攻击牌。造成相当于其伤害+当前层数的伤害.\n每次铸造增加对应层数。\n开启后，铸造只会生成子弹。{BulletExtraHit:cond:\n消耗子弹时，额外造成一次伤害。|}{JadeBonus:cond:\n消耗非子弹牌时，额外造成4点伤害。|}",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_HIGH_GROUND_POWER.title": "居高临下",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_HIGH_GROUND_POWER.description": "受到的伤害减少{DamageDecrease}%，造成的伤害增加{DamageIncrease}%。\n受到突破[gold]格挡[/gold]的伤害时，失去1层。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_HEAVY_PRESSURE_POWER.title": "重压",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_HEAVY_PRESSURE_POWER.description": "伤害低于重锤门槛时，伤害变为0。\n门槛为本场重锤最高的10＋铸造值，施加时记录。\n自身回合结束时失去1层。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_HEAVY_PRESSURE_POWER.smartDescription": "结算伤害低于{DamageThreshold}时，变为0。\n自身回合结束时失去1层。\n再次施加叠加层数，保留较高门槛。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_STAFF_STUN_POWER.title": "眩晕",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_STAFF_STUN_POWER.description": "无法行动2个敌方回合。\n再次受到重劈时，持续时间恢复至至少2回合。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_STAFF_STUN_POWER.smartDescription": "接下来{Amount}个敌方回合无法行动。\n再次受到重劈时，持续时间恢复至至少2回合。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_MARTIAL_FANATIC_POWER.title": "武痴",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_MARTIAL_FANATIC_POWER.description": "攻击牌只能打出皇家指虎。\n造成突破格挡的伤害时，[gold]铸造[/gold]{ForgeAmount}。\n完全格挡敌方伤害时，获得1层[gold]适应[/gold]，至多{MaximumStacks}层。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_ADAPTATION_POWER.title": "适应",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_ADAPTATION_POWER.description": "每层使受到的伤害减少20%，造成的伤害增加20%。\n至多{MaximumStacks}层。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_LIFE_LOCK_POWER.title": "命锁",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_LIFE_LOCK_POWER.description": "获得的负面效果额外增加2层。\n持续本场战斗，重复施加不叠加。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_REND_POWER.title": "撕裂",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_REND_POWER.description": "每发动一次攻击，损失10%最大生命值并失去1层。\n多段攻击只触发一次。",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_TSUNAMI_POWER.title": "海啸",
+  "MORE_WEAPONS_REGENT_EXTEND_POWER_TSUNAMI_POWER.description": "当前格挡和之后获得的格挡减半。\n持续本场战斗，重复施加不叠加。"
 }

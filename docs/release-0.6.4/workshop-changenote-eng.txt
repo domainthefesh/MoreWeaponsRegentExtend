@@ -1,0 +1,71 @@
+[h1]Weapon Tempering Update | 0.6.4[/h1]
+[b]Defeat bosses to temper your weapons; challenge elites to hone their edge.[/b]
+
+This update brings together the changes from 0.5.4–0.6.4, adding weapon upgrades for the current run to all 16 mod weapons and the original Sovereign Blade, along with improvements to the task interface, weapon balance, and interactions with base-game cards.
+
+[h2]New: Weapon Tempering[/h2]
+[list]
+[*]A new Weapon Tempering button near the map in the upper-right corner opens the Royal Task Graph.
+[*]Claim Tempering I after defeating the Act I boss. Claim Tempering II after defeating the Act II boss and claiming Tempering I. There are 17 weapons with 34 weapon-specific main-path upgrades in total.
+[*]A separate side task, Jade Tempering, grants +4 base attack damage to the corresponding weapon after you win 5 elite combats. No main-path upgrade needs to be claimed first.
+[*]Fixed-weapon choices and "Let Fate Decide" let you upgrade the weapon chosen for this run. "Master of All Arms" lets you claim upgrades for each weapon separately.
+[*]Upgrades take effect when claimed. You can view them during combat and claim them after combat ends. Progress is kept in your run save and resets when you start a new run.
+[/list]
+
+[h2]Two Unique Upgrade Tiers for Every Weapon[/h2]
+Each entry below lists Tempering I / Tempering II. "First play" is tracked once per card, per combat. Newly created copies are tracked separately; additional replays do not trigger first-play rewards again.
+[list]
+[*][b]Sovereign Warhammer[/b]: Apply an additional 1 Shrink to the target when played / +10 base damage.
+[*][b]Dread Emperor's Sacred Bow[/b]: +1 base Apocalypse / Apply Fate Lock to the target when played, making each debuff it receives gain 2 additional stacks.
+[*][b]Sovereign Crystal Blade[/b]: +1 Shatter / Deal damage one additional time.
+[*][b]Sovereign Shield[/b]: No longer gain Crystalline when played / Double this card's own Block on its first play.
+[*][b]Sovereign Spear[/b]: Extra Forge 4 → 6 / Apply 1 Vulnerable before damage if the target intends to attack.
+[*][b]Sovereign Greataxe[/b]: Bleed damage 3% → 5% of maximum HP / Apply 2 Rend to the target when played.
+[*][b]Royal Rifle[/b]: Base Energy cost 3 → 2 / Royal Rifle's start-of-turn attack deals damage one additional time when it Exhausts a Bullet.
+[*][b]Sovereign Scythe[/b]: Apply 50% more Doom / Gain 4 maximum HP on a kill.
+[*][b]Neptune's Trident[/b]: Gain 10 Thunder on its first play / Apply Tsunami to reduce the target's Block by 50% before dealing damage.
+[*][b]Imperial Katana[/b]: Deal 50% more damage on its first play / Execute targets below 50% of their maximum HP.
+[*][b]Sovereign Wings[/b]: Gain an additional 1 High Ground when played / High Ground's damage reduction and damage increase both rise to 75%.
+[*][b]Sovereign Dagger[/b]: Gold gained on a kill 15 → 45 / Deal triple damage if the target does not intend to attack or you have more than 300 Gold.
+[*][b]Sea Calming Staff[/b]: Return to your hand after its first play / Gain 3 Energy for every 3 stance changes.
+[*][b]Galactic Trajectory Cannon[/b]: Base Energy cost 3 → 2 / Required Charges 3 → 1.
+[*][b]Codex of Light[/b]: Base Blessing 1 → 2 / Heal 6 HP on its first play.
+[*][b]Royal Knuckles[/b]: Forge gained when damage breaks through Block 8 → 10 / Maximum Adaptation stacks 2 → 4.
+[*][b]Sovereign Blade[/b]: Base Energy cost −1 / Each kill grants a cumulative +10 base damage shared by all Sovereign Blades this run.
+[/list]
+
+[h2]New Status Effects[/h2]
+[list]
+[*][b]Fate Lock[/b]: Each debuff received gains 2 additional stacks. Lasts for this combat.
+[*][b]Rend[/b]: Whenever the affected creature attacks, it loses 10% of its maximum HP and 1 stack. A single multi-hit attack triggers this only once.
+[*][b]Tsunami[/b]: The first application halves current Block, and future Block gained is also halved. Lasts for this combat.
+[*]Reapplying Fate Lock or Tsunami does not stack their fixed effects. All three new status effects have icons and descriptions in Chinese and English.
+[/list]
+
+[h2]New Choice and Interface Redesign[/h2]
+[list]
+[*]The Departure Armory now offers "Choose the familiar weapon," which uses the original Sovereign Blade for Forge and lets it receive Tempering upgrades.
+[*]The Royal Task Graph uses the base game's fonts, black outlines, and a blue-gray interface, with an index of all 17 weapons.
+[*]Nodes display only "Tempering I," "Tempering II," or "Jade Tempering." Click a node to expand its task requirements, progress, and reward.
+[*]The main path uses straight connections, with Jade Tempering arranged separately. The graph supports dragging, zooming, and recentering.
+[*]Fixed task titles and the close button being covered by the top bar or relic bar. The interface adjusts to the window size and number of relic rows.
+[*]Esc first collapses the task details, then closes the entire interface.
+[/list]
+
+[h2]Balance and Usability Adjustments[/h2]
+[list]
+[*]Galactic Trajectory Cannon's base damage is reduced from 100 → 50, retaining its damage to all enemies and tenfold Forge scaling. Seeking Edge still plays the entire card one additional time.
+[*]Crystal Daggers created by Sovereign Crystal Blade's Shatter now have Retain.
+[*]Royal Knuckles' base maximum Adaptation stacks are reduced from 4 → 2. Claiming Tempering II restores the cap to 4; each stack still provides 20% damage reduction and 20% increased damage.
+[*]Simplified the Heavy Pressure description and synchronized Chinese and English text for the new system, card descriptions, and power tooltips.
+[/list]
+
+[h2]Card Interactions and Fixes[/h2]
+[list]
+[*]Fixed Conqueror sometimes forging the original Sovereign Blade when an expanded weapon was already present, and improved the unified Forge handling.
+[*]Hover tooltips for Forge and Sovereign Blade-related cards now consistently preview the weapon chosen for this run. Random-weapon modes show the original Sovereign Blade, and Parry no longer expands previews of all weapons at once.
+[*]Fixed Sovereign Blade's Tempering II kill-based growth missing the last enemy in a room, and prevented the same death from counting toward growth more than once.
+[*]Corrected the warhammer's damage preview when refreshed, along with value descriptions for the shield, rifle, and associated weapons after Jade Tempering.
+[/list]
+
+[b]STS2-RitsuLib remains required; please enable it alongside this mod. Share your new weapon builds and feedback in the comments![/b]

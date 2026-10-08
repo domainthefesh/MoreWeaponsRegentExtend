@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/RoyalBrassKnuckles.png" id="1_weapon"]
+
+[node name="RoyalBrassKnucklesOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+scale = Vector2(0.11078717, 0.11078717)
+offset = Vector2(-2.000, -9.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -82.000
+offset_top = -43.668
+offset_right = 82.000
+offset_bottom = 43.668
+mouse_filter = 2

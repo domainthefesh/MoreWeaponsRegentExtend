@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/NeptuneTrident.png" id="1_weapon"]
+
+[node name="NeptuneTridentOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+rotation = 1.5707963
+scale = Vector2(0.1226415, 0.1226415)
+offset = Vector2(0.000, 2.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -97.000
+offset_top = -37.642
+offset_right = 97.000
+offset_bottom = 37.642
+mouse_filter = 2

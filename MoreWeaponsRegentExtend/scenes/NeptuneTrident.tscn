@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/NeptuneTrident.png" id="1_icon"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_spark.svg" id="2_spark"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_halo.svg" id="3_halo"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_add"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.1, 1)
+colors = PackedColorArray(0.3, 0.9, 1, 0, 0.3, 0.9, 1, 1, 0.1, 0.45, 1, 0)
+
+[node name="NeptuneTridentVfx" type="Node2D"]
+z_index = 2
+
+[node name="Halo" type="Sprite2D" parent="."]
+modulate = Color(0.25, 0.75, 1, 0.8)
+material = SubResource("Material_add")
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_halo")
+
+[node name="Icon" type="Sprite2D" parent="."]
+offset = Vector2(0.000, 2.000)
+rotation = -0.4
+scale = Vector2(0.1650943, 0.1650943)
+texture = ExtResource("1_icon")
+
+[node name="Lightning" type="Node2D" parent="."]
+material = SubResource("Material_add")
+
+[node name="Glow" type="Line2D" parent="Lightning"]
+modulate = Color(1, 1, 1, 0.4)
+points = PackedVector2Array(16, -180, -15, -113, 25, -117, -12, -51, 19, -57, -7, 16)
+width = 15.0
+default_color = Color(0.1, 0.55, 1, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Core" type="Line2D" parent="Lightning"]
+points = PackedVector2Array(16, -180, -15, -113, 25, -117, -12, -51, 19, -57, -7, 16)
+width = 3.5
+default_color = Color(0.8, 0.95, 1, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Branch" type="Line2D" parent="Lightning"]
+points = PackedVector2Array(4, -92, 55, -66, 41, -28, 80, -5)
+width = 2.0
+default_color = Color(0.45, 0.8, 1, 0.9)
+joint_mode = 2
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+material = SubResource("Material_add")
+emitting = false
+amount = 20
+lifetime = 0.60
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("2_spark")
+spread = 180.0
+gravity = Vector2(0, 35)
+initial_velocity_min = 70.0
+initial_velocity_max = 170.0
+scale_amount_min = 0.10
+scale_amount_max = 0.24
+color_ramp = SubResource("Gradient_fade")
+emission_shape = 1
+emission_sphere_radius = 15.0

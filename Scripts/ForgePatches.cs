@@ -20,26 +20,39 @@ using STS2RitsuLib.Patching.Models;
 
 namespace MoreWeaponsRegentExtend.Scripts;
 
-// 补丁：首次锻造时随机创建一种君王武器，且不重复创建原版 SovereignBlade
+// 补丁：按本局兵器库选择创建武器，且不重复创建原版 SovereignBlade。
 public class ForgeRandomizePatch : IPatchMethod
 {
     public static string PatchId => "more_weapons_forge_randomize";
-    public static string Description => "Randomly create a forgeable weapon on first forge, prevent duplicate SovereignBlade";
-    public static bool IsCritical => false;
+    public static string Description => "Create the run's chosen forgeable weapon, prevent duplicate SovereignBlade";
+    public static bool IsCritical => true;
 
     public static ModPatchTarget[] GetTargets() =>
         [new(typeof(ForgeCmd), nameof(ForgeCmd.Forge))];
-
-    private static readonly Random _rng = new();
 
     public static bool Prefix(
         decimal amount,
         Player player,
         AbstractModel? source,
         ref Task<IEnumerable<SovereignBlade>> __result)
+        => !TryHandleForge(amount, player, source, out __result);
+
+    // Both the public wrapper and its async entry use this route. The latter also
+    // covers callers that inlined the wrapper before Harmony installed its patch.
+    public static bool TryHandleForge(
+        decimal amount,
+        Player player,
+        AbstractModel? source,
+        out Task<IEnumerable<SovereignBlade>> result)
     {
+        result = null!;
         if (CombatManager.Instance.IsOverOrEnding)
-            return true;
+            return false;
+
+        // The familiar route deliberately keeps the original game's blade creation,
+        // forge scaling and support effects, including the protected async entry.
+        if (WeaponSelection.GetWeapon(player) == WeaponKind.SovereignBlade)
+            return false;
 
         bool hasSovereignBlade = player.PlayerCombatState!.AllCards
             .Any(c => !c.IsDupe && c.Pile?.Type != PileType.Exhaust && c is SovereignBlade);
@@ -47,44 +60,42 @@ public class ForgeRandomizePatch : IPatchMethod
             .Any(c => !c.IsDupe && c.Pile?.Type != PileType.Exhaust && IsModForgeCard(c));
         bool hasKingGun = player.Creature.HasPower<KingGunPower>();
 
-        bool firstForgeEnabled = MoreWeaponsSettingsPage.FirstForgeRandom.Read();
-        bool everyForgeEnabled = MoreWeaponsSettingsPage.EveryForgeRandom.Read();
+        bool everyForgeEnabled = WeaponSelection.IsEveryForgeRandom(player);
 
         // 王之枪激活时：铸造成子弹
         if (hasKingGun && !hasSovereignBlade)
         {
             if (!hasModForgeCard || everyForgeEnabled)
             {
-                __result = CreateBulletsAsync(amount, player, source);
-                return false;
+                result = CreateBulletsAsync(amount, player, source);
+                return true;
             }
             // 已有模组武器，跳过 Blade 创建
-            __result = ApplyForgeToModCardsAsync(amount, player, source);
-            return false;
+            result = ApplyForgeToModCardsAsync(amount, player, source);
+            return true;
         }
 
-        // 每次铸造都随机生成（选项10）
+        // 百武皆通：每次铸造重新随机生成一种武器。
         if (everyForgeEnabled && !hasSovereignBlade)
         {
-            CreateRandomWeapon(ref __result, amount, player, source);
-            return false;
+            return CreateChosenWeapon(ref result, amount, player, source);
         }
 
-        // 首次铸造随机生成（选项1，默认勾选）
-        if (firstForgeEnabled && !hasSovereignBlade && !hasModForgeCard)
+        // 固定兵器：没有可继续铸造的武器时，生成本局选定兵器。
+        // 更新前的存档没有开局选择，仍采用首次铸造随机的兼容行为。
+        if (!hasSovereignBlade && !hasModForgeCard)
         {
-            CreateRandomWeapon(ref __result, amount, player, source);
-            return false;
+            return CreateChosenWeapon(ref result, amount, player, source);
         }
 
         // 有模组卡但无原版 Blade：跳过 Blade 创建
         if (!hasSovereignBlade && hasModForgeCard)
         {
-            __result = ApplyForgeToModCardsAsync(amount, player, source);
-            return false;
+            result = ApplyForgeToModCardsAsync(amount, player, source);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private static async Task<IEnumerable<SovereignBlade>> CreateBulletsAsync(
@@ -93,52 +104,71 @@ public class ForgeRandomizePatch : IPatchMethod
         var combatState = player.Creature.CombatState!;
         var bullet = combatState.CreateCard<Bullet>(player);
         bullet.CreatedThroughForge = true;
-        bullet.AddDamage(amount);
-        bullet.AfterForged();
 
         await CardPileCmd.AddGeneratedCardToCombat(bullet, PileType.Hand, player);
         await Hook.AfterForge(combatState, amount, player, source);
         return Array.Empty<SovereignBlade>();
     }
 
-    private static void CreateRandomWeapon(
+    private static bool CreateChosenWeapon(
         ref Task<IEnumerable<SovereignBlade>> __result,
         decimal amount, Player player, AbstractModel? source)
     {
-        var enabled = MoreWeaponsSettingsPage.GetEnabledWeaponIndices();
-        if (enabled.Count == 0)
+        var weapon = WeaponSelection.GetWeapon(player) ?? WeaponSelection.RollWeapon(player);
+        switch (weapon)
         {
-            return; // 没有启用的武器，走原版创建 SovereignBlade
-        }
-
-        int roll = _rng.Next(enabled.Count);
-        switch (enabled[roll])
-        {
-            case 0:
+            case WeaponKind.SovereignBludgeon:
                 __result = CreateCardAsync<SovereignBludgeon>(amount, player, source);
                 break;
-            case 1:
+            case WeaponKind.ApocalypseLongbow:
                 __result = CreateCardAsync<ApocalypseLongbow>(amount, player, source);
                 break;
-            case 2:
+            case WeaponKind.SovereignCrystalBlade:
                 __result = CreateCardAsync<SovereignCrystalBlade>(amount, player, source);
                 break;
-            case 3:
+            case WeaponKind.SovereignShield:
                 __result = CreateCardAsync<SovereignShield>(amount, player, source);
                 break;
-            case 4:
+            case WeaponKind.SovereignSpear:
                 __result = CreateCardAsync<SovereignSpear>(amount, player, source);
                 break;
-            case 5:
+            case WeaponKind.SovereignAxe:
                 __result = CreateCardAsync<SovereignAxe>(amount, player, source);
                 break;
-            case 6:
+            case WeaponKind.SovereignGun:
                 __result = CreateCardAsync<SovereignGun>(amount, player, source);
                 break;
-            case 7:
+            case WeaponKind.SovereignScythe:
                 __result = CreateCardAsync<SovereignScythe>(amount, player, source);
                 break;
+            case WeaponKind.NeptuneTrident:
+                __result = CreateCardAsync<NeptuneTrident>(amount, player, source);
+                break;
+            case WeaponKind.SovereignKatana:
+                __result = CreateCardAsync<SovereignKatana>(amount, player, source);
+                break;
+            case WeaponKind.SovereignWings:
+                __result = CreateCardAsync<SovereignWings>(amount, player, source);
+                break;
+            case WeaponKind.SovereignDagger:
+                __result = CreateCardAsync<SovereignDagger>(amount, player, source);
+                break;
+            case WeaponKind.SeaCalmingStaff:
+                __result = CreateCardAsync<SeaCalmingStaff>(amount, player, source);
+                break;
+            case WeaponKind.GalaxyTrajectoryCannon:
+                __result = CreateCardAsync<GalaxyTrajectoryCannon>(amount, player, source);
+                break;
+            case WeaponKind.HolyCodex:
+                __result = CreateCardAsync<HolyCodex>(amount, player, source);
+                break;
+            case WeaponKind.RoyalBrassKnuckles:
+                __result = CreateCardAsync<RoyalBrassKnuckles>(amount, player, source);
+                break;
+            default:
+                return false;
         }
+        return true;
     }
 
     private static async Task<IEnumerable<SovereignBlade>> CreateCardAsync<TCard>(
@@ -151,8 +181,7 @@ public class ForgeRandomizePatch : IPatchMethod
 
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
 
-        ApplyForgeAmount(card, amount);
-
+        // 初次生成与后续铸造都由 ForgeSingleton 结算一次。
         await Hook.AfterForge(combatState, amount, player, source);
 
         return Array.Empty<SovereignBlade>();
@@ -164,49 +193,6 @@ public class ForgeRandomizePatch : IPatchMethod
         var combatState = player.Creature.CombatState!;
         await Hook.AfterForge(combatState, amount, player, source);
         return Array.Empty<SovereignBlade>();
-    }
-
-    private static void ApplyForgeAmount(CardModel card, decimal amount)
-    {
-        if (card is SovereignBludgeon bludgeon)
-        {
-            bludgeon.AddDamage(amount);
-            bludgeon.AfterForged();
-        }
-        else if (card is ApocalypseLongbow longbow)
-        {
-            longbow.AddDamage(amount);
-            longbow.AfterForged();
-        }
-        else if (card is SovereignCrystalBlade crystalBlade)
-        {
-            crystalBlade.AddDamage(amount);
-            crystalBlade.AfterForged();
-        }
-        else if (card is SovereignShield shield)
-        {
-            shield.AddDamage(amount);
-            shield.AfterForged();
-        }
-        else if (card is SovereignSpear spear)
-        {
-            spear.AddDamage(amount);
-            spear.AfterForged();
-        }
-        else if (card is SovereignAxe axe)
-        {
-            axe.AddDamage(amount);
-            axe.AfterForged();
-        }
-        else if (card is SovereignScythe scythe)
-        {
-            scythe.AddDamage(amount);
-            scythe.AfterForged();
-        }
-        else if (card is SovereignGun gun)
-        {
-            gun.AfterForged();
-        }
     }
 
     private static void SetCreatedThroughForge(CardModel card, bool value)
@@ -239,8 +225,12 @@ public class ForgeRandomizePatch : IPatchMethod
             || card is SovereignSpear
             || card is SovereignAxe
             || card is SovereignGun
-            || card is SovereignScythe;
+            || card is SovereignScythe
+            || card is ForgeableWeaponCardBase;
     }
+
+    // 原版君王之剑的联动也作用于附属武器；子弹仍不阻止铸造生成主武器。
+    public static bool IsBladeCompatibleCard(CardModel card) => IsModForgeCard(card) || card is Bullet;
 }
 
 // 补丁：ConquerorPower 双倍伤害也对模组锻造卡生效
@@ -262,7 +252,7 @@ public class ConquerorModPatch : IPatchMethod
         CardModel? cardSource,
         ref decimal __result)
     {
-        if (cardSource == null || !ForgeRandomizePatch.IsModForgeCard(cardSource))
+        if (cardSource == null || !ForgeRandomizePatch.IsBladeCompatibleCard(cardSource))
             return true;
 
         if (!props.IsPoweredAttack())
@@ -307,7 +297,7 @@ public class SwordSageModPatch : IPatchMethod
         if (card.Owner != instance.Owner?.Player)
             return false;
 
-        if (!ForgeRandomizePatch.IsModForgeCard(card))
+        if (!ForgeRandomizePatch.IsBladeCompatibleCard(card))
             return false;
 
         card.BaseReplayCount += amount;
@@ -349,7 +339,7 @@ public class SwordSageRemovedModPatch : IPatchMethod
         var cards = oldOwner.Player?.PlayerCombatState?.AllCards ?? Array.Empty<CardModel>();
         foreach (var card in cards)
         {
-            if (ForgeRandomizePatch.IsModForgeCard(card))
+            if (ForgeRandomizePatch.IsBladeCompatibleCard(card))
                 card.BaseReplayCount -= __instance.Amount;
         }
     }
@@ -383,7 +373,7 @@ public class SummonForthModPatch : IPatchMethod
         // 找原版 SovereignBlade + 模组锻造卡（非手牌堆）
         var cards = player.PlayerCombatState!.AllCards
             .Where(c => !c.IsDupe
-                && (c is SovereignBlade || ForgeRandomizePatch.IsModForgeCard(c))
+                && (c is SovereignBlade || ForgeRandomizePatch.IsBladeCompatibleCard(c))
                 && (c.Pile == null || c.Pile.Type != PileType.Hand))
             .ToList();
 
@@ -394,26 +384,18 @@ public class SummonForthModPatch : IPatchMethod
     }
 }
 
-// 补丁：Parry 的 ExtraHoverTips 也显示模组锻造卡牌预览
+// 补丁：铸造及君王之剑联动卡牌只预览本局选择的一把武器。
 public class ParryHoverModPatch : IPatchMethod
 {
     public static string PatchId => "more_weapons_parry_hover_mod";
-    public static string Description => "Parry card also shows mod forge card previews in hover tips";
+    public static string Description => "Forge and blade support cards preview only the run's chosen weapon";
     public static bool IsCritical => false;
 
     public static ModPatchTarget[] GetTargets() =>
-        [new(typeof(Parry), "get_ExtraHoverTips")];
+        [new(typeof(CardModel), "get_HoverTips")];
 
-    public static void Postfix(ref IEnumerable<IHoverTip> __result)
+    public static void Postfix(CardModel __instance, ref IEnumerable<IHoverTip> __result)
     {
-        var extra = new List<IHoverTip>(__result);
-        extra.Add(HoverTipFactory.FromCard<SovereignBludgeon>());
-        extra.Add(HoverTipFactory.FromCard<ApocalypseLongbow>());
-        extra.Add(HoverTipFactory.FromCard<SovereignCrystalBlade>());
-        extra.Add(HoverTipFactory.FromCard<SovereignShield>());
-        extra.Add(HoverTipFactory.FromCard<SovereignSpear>());
-        extra.Add(HoverTipFactory.FromCard<SovereignAxe>());
-        extra.Add(HoverTipFactory.FromCard<SovereignScythe>());
-        __result = extra;
+        __result = WeaponHoverTips.ForCard(__instance, __result);
     }
 }

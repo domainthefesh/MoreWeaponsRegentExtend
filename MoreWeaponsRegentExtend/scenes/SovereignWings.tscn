@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignWings.png" id="1_wing"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_spark.svg" id="2_spark"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_halo.svg" id="3_halo"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_add"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.12, 1)
+colors = PackedColorArray(1, 0.95, 0.65, 0, 1, 0.95, 0.65, 1, 1, 0.75, 0.35, 0)
+
+[node name="SovereignWingsVfx" type="Node2D"]
+z_index = 2
+
+[node name="Halo" type="Sprite2D" parent="."]
+material = SubResource("Material_add")
+scale = Vector2(0.95, 0.95)
+texture = ExtResource("3_halo")
+
+[node name="Icon" type="Node2D" parent="."]
+scale = Vector2(1, 1)
+
+[node name="LeftWing" type="Node2D" parent="Icon"]
+position = Vector2(0.000, 28.865)
+
+[node name="Feathers" type="Sprite2D" parent="Icon/LeftWing"]
+region_rect = Rect2(0, 0, 768, 1024)
+region_enabled = true
+flip_h = false
+scale = Vector2(0.2226588, 0.2226588)
+position = Vector2(-85.390, -20.182)
+texture = ExtResource("1_wing")
+
+[node name="RightWing" type="Node2D" parent="Icon"]
+position = Vector2(0.000, 28.865)
+
+[node name="Feathers" type="Sprite2D" parent="Icon/RightWing"]
+region_rect = Rect2(768, 0, 768, 1024)
+region_enabled = true
+scale = Vector2(0.2226588, 0.2226588)
+position = Vector2(85.612, -20.182)
+texture = ExtResource("1_wing")
+flip_h = false
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+material = SubResource("Material_add")
+position = Vector2(0, -26)
+emitting = false
+amount = 30
+lifetime = 0.80
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource("2_spark")
+direction = Vector2(0, -1)
+spread = 48.0
+gravity = Vector2(0, -12)
+initial_velocity_min = 30.0
+initial_velocity_max = 100.0
+scale_amount_min = 0.10
+scale_amount_max = 0.28
+color_ramp = SubResource("Gradient_fade")
+emission_shape = 3
+emission_rect_extents = Vector2(105, 20)

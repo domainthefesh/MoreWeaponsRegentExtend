@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
@@ -30,6 +31,9 @@ public class Bullet : MoreWeaponsCardBase
     private NWeaponVfx? _vfx;
 
     public override HashSet<CardKeyword> CanonicalKeywords => new() { CardKeyword.Exhaust };
+    public override TargetType TargetType => HasSeekingEdge ? TargetType.AllEnemies : targetType;
+    public override bool GainsBlock => GetOwnerParryAmount(this) > 0m;
+    private bool HasSeekingEdge => IsMutable && Owner != null && Owner.Creature.HasPower<SeekingEdgePower>();
 
     private decimal CurrentDamage
     {
@@ -45,6 +49,7 @@ public class Bullet : MoreWeaponsCardBase
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(_baseDamage, ValueProp.Move),
+        .. ParryVars(),
     ];
 
     public Bullet() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary) { }
@@ -55,15 +60,21 @@ public class Bullet : MoreWeaponsCardBase
         float delay = Owner.Character.CastAnimDelay;
         string sfxPath = "event:/sfx/characters/regent/regent_sovereign_blade";
 
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        var command = DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .WithAttackerAnim(animName, delay)
-            .WithAttackerFx(null, sfxPath)
-            .Targeting(cardPlay.Target!)
-            .BeforeDamage(() => TriggerWeaponAttack(cardPlay.Target))
-            .WithHitVfxNode(NBigSlashVfx.Create)
-            .WithHitVfxNode(NBigSlashImpactVfx.Create)
-            .Execute(choiceContext);
+            .WithAttackerFx(null, sfxPath);
+
+        if (HasSeekingEdge)
+            await command.TargetingAllOpponents(CombatState!)
+                .BeforeDamage(TriggerWeaponAttackFirstEnemy)
+                .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3").Execute(choiceContext);
+        else
+            await command.Targeting(cardPlay.Target!)
+                .BeforeDamage(() => TriggerWeaponAttack(cardPlay.Target))
+                .WithHitVfxNode(NBigSlashVfx.Create).WithHitVfxNode(NBigSlashImpactVfx.Create).Execute(choiceContext);
+
+        await GainParryBlock(cardPlay);
     }
 
     protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(2); }
@@ -94,19 +105,14 @@ public class Bullet : MoreWeaponsCardBase
 
     public override Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
     {
-        if (card != this) return Task.CompletedTask;
-        if (oldPileType == PileType.None || oldPileType == PileType.Exhaust)
-        {
-            if (_vfx == null)
-            {
-                _vfx = EnsureWeaponVfx("Bullet.tscn");
-            }
-        }
-        if (card.Pile?.Type == PileType.Exhaust)
+        if (card != this || IsDupe) return Task.CompletedTask;
+        if (Pile?.IsCombatPile != true || Pile.Type == PileType.Exhaust)
         {
             RemoveWeaponVfx();
             _vfx = null;
         }
+        else
+            _vfx = EnsureWeaponVfx("orbit/Bullet.tscn");
         return Task.CompletedTask;
     }
 }

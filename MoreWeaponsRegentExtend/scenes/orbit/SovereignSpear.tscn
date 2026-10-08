@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignSpear.png" id="1_weapon"]
+
+[node name="SovereignSpearOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+rotation = 1.5707963
+scale = Vector2(0.1734986, 0.1734986)
+offset = Vector2(0.000, 7.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -97.000
+offset_top = -26.473
+offset_right = 97.000
+offset_bottom = 26.473
+mouse_filter = 2

@@ -1,0 +1,69 @@
+[h1]Sovereign Arsenal — Regent Expansion[/h1]
+[b]Sixteen weapons, a combat style of your own on every climb.[/b]
+
+An expansion that lets the Regent Forge more than a greatsword.
+
+From crystal blades and staves to rifles and trajectory cannons, from Sovereign Wings to the Codex of Light: choose your weapon, strengthen it with Forge during combat, and build around its unique strengths.
+
+[h2]Choose Your Weapon Before the Climb[/h2]
+After Neow's event, the Regent visits the Departure Armory. Choose how to equip yourself for this run:
+[list]
+[*][b]Choose a Weapon[/b]: Select a weapon from four categories and make it your Forge weapon for the run.
+[*][b]Choose the familiar weapon[/b]: Forge the original Sovereign Blade and claim its own Tempering upgrades.
+[*][b]Let Fate Decide[/b]: Randomly select one weapon and use it throughout the run.
+[*][b]Master of All Arms[/b]: Whenever Forge needs to create a weapon, one is selected at random.
+[/list]
+The armory includes categories, back navigation, and automatic pagination. Weapon selection is now part of the opening event; no mod-settings weapon pool setup is needed.
+
+[h2]Sixteen Weapons, Four Categories[/h2]
+[list]
+[*][b]Light[/b]: Sovereign Crystal Blade, Sovereign Dagger, Neptune's Trident, Imperial Katana, Sea Calming Staff.
+[*][b]Heavy[/b]: Sovereign Scythe, Sovereign Greataxe, Sovereign Warhammer, Sovereign Spear, Sovereign Shield.
+[*][b]Ranged[/b]: Dread Emperor's Sacred Bow, Royal Rifle, Galactic Trajectory Cannon.
+[*][b]Special[/b]: Sovereign Wings, Codex of Light, Royal Knuckles.
+[/list]
+Cycle through the staff's three Stances, charge your cannon, receive Blessings from the Codex, or become a Martial Fanatic with Royal Knuckles. Each weapon has different effects, Forge benefits, and decisions to make in combat.
+
+[h2]Weapon Tempering: Grow Your Arsenal as You Climb[/h2]
+
+Forge a weapon that suits your combat style, then unlock new strengths along the way.
+
+Open the Royal Task Graph from the Weapon Tempering button near the map icon in the top-right corner. Defeat the Act I and Act II bosses to claim Tempering I and Tempering II, unlocking upgrades unique to each weapon. The 16 mod weapons and the original Sovereign Blade offer 34 main-path rewards in total.
+
+Shrink your enemies with the Warhammer, strike again with the Crystal Blade, fire an extra shot when the Rifle exhausts a Bullet, or recover Energy as the Staff cycles through its Stances. Choose a weapon and plan your build around its two stages of upgrades.
+
+An independent side task, Jade Tempering, rewards you for winning 5 elite combats with +4 base attack damage for the corresponding weapon. It requires no main-path rewards, giving elite routes their own opportunity for growth.
+
+Browse weapons, pan and zoom the graph, and click a node to see its task and reward. Choose a Weapon and Let Fate Decide let you upgrade the weapon selected for your run; Master of All Arms lets you claim upgrades for each weapon separately. Upgrades take effect when claimed. Progress is saved with your run and resets when you start a new one.
+
+[h2]New Opening Choice: Choose the familiar weapon[/h2]
+
+Prefer the Regent's original Sovereign Blade? Select Choose the familiar weapon in the Departure Armory and keep Forging the original greatsword. It has its own two Tempering rewards: a lower base Energy cost, followed by shared base damage growth for all your Sovereign Blades whenever one scores a kill.
+
+[h2]Cards, Artwork, and Interactions[/h2]
+[list]
+[*]20 cards: 16 main weapons, 3 supporting cards (Crystal Dagger, Bullet, and Charge), and 1 new starting card.
+[*]Handy Weapon replaces one of the Regent's starting Strikes: Forge 3, or Forge 5 when upgraded.
+[*]Matching card art, armory illustrations, status icons, floating weapons, and attack/cast effects.
+[*]Supports Sovereign Blade interactions including Parry, Seeking Edge, Sword Sage, Conqueror, and Summon Forth.
+[*]Complete Chinese and English localization.
+[/list]
+
+[h2]Dependency and Installation[/h2]
+This mod is built with [b]STS2-RitsuLib[/b]. Install and enable this dependency before playing.
+[list]
+[*]Subscribe to this mod and STS2-RitsuLib.
+[*]Launch the game, enable both in the mod list, and restart when prompted.
+[*]Start a run as the Regent and visit the armory after Neow's event.
+[/list]
+
+[h2]AI-Assisted Content[/h2]
+Some artwork and creative content was generated or assisted by AI, then selected, revised, and integrated into the mod.
+
+[h2]Feedback and Suggestions[/h2]
+Please use the Workshop comments to report unexpected effects, translation errors, balance concerns, or mod compatibility issues. New weapon ideas are welcome too.
+
+When reporting an issue, please include what happened, your game and mod versions, other enabled mods, and any relevant logs or screenshots.
+
+Thank you for subscribing and playing!
+[b]An arsenal of possibilities, forged for your climb.[/b]

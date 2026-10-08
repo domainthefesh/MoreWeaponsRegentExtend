@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="224" height="192" viewBox="0 0 224 192">
+  <defs><linearGradient id="feather" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffae1"/><stop offset=".52" stop-color="#efce7e"/><stop offset="1" stop-color="#ac7543"/></linearGradient></defs>
+  <path fill="url(#feather)" stroke="#79533b" stroke-width="4" stroke-linejoin="round" d="M214 146C168 133 155 112 137 90 97 52 50 35 9 8 5 50 36 94 63 102L20 67c6 39 40 67 69 66l-43-19c15 35 42 44 75 40l-45-1c20 23 45 28 75 18l-25 10c37 5 61-6 88-35Z"/>
+  <path fill="none" stroke="#fff4c5" stroke-width="5" stroke-linecap="round" d="M211 145C160 129 132 79 26 27m145 108C116 126 77 86 36 56m130 93c-53-2-78-28-107-44m98 57c-25 6-39-1-61-13"/>
+  <path fill="none" stroke="#a97546" stroke-width="2" d="M23 34c43 43 99 53 150 110M43 82c43 37 68 43 117 66"/>
+</svg>

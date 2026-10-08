@@ -24,7 +24,7 @@ public sealed class SovereignShieldPower : ModPowerTemplate
 
     public override PowerAssetProfile AssetProfile => new(
         IconPath: "res://MoreWeaponsRegentExtend/images/powers/SovereignShieldPower.png",
-        BigIconPath: "res://MoreWeaponsRegentExtend/images/powers/SovereignShieldPower_big.png"
+        BigIconPath: "res://MoreWeaponsRegentExtend/images/powers/SovereignShieldPower.png"
     );
 
     public override async Task AfterDamageReceived(

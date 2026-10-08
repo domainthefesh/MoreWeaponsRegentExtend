@@ -17,6 +17,7 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.ValueProps;
 using MoreWeaponsRegentExtend.Scripts;
 using STS2RitsuLib.Keywords;
+using MoreWeaponsRegentExtend.Scripts.Progression;
 
 namespace MoreWeaponsRegentExtend.Scripts.Cards;
 
@@ -31,6 +32,7 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
 
     private decimal _currentDamage = 3m;
     private decimal _currentRepeats = 2m;
+    private decimal _progressionRepeatBonus;
     private bool _createdThroughForge;
     private NWeaponVfx? _vfx;
 
@@ -52,12 +54,14 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
         new DamageVar(_baseDamage, ValueProp.Move), new RepeatVar(2),
         new CalculationBaseVar(0m), new CalculationExtraVar(1m),
         new CalculatedBlockVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetOwnerParryAmount(card)),
+        new DynamicVar("ShatterCount", 3m),
     ];
 
     public SovereignCrystalBlade() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary) { }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        SyncProgressionRewards();
         string animName = "Cast"; float delay = Owner.Character.CastAnimDelay;
         string sfxPath = "event:/sfx/characters/regent/regent_sovereign_blade";
         var attackCmd = DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay)
@@ -77,7 +81,7 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
                 DynamicVars.CalculatedBlock.Props, cardPlay);
 
         var combatState = CombatState!;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < DynamicVars["ShatterCount"].IntValue; i++)
         {
             var dagger = combatState.CreateCard<CrystalDagger>(Owner);
             await CardPileCmd.AddGeneratedCardToCombat(dagger, PileType.Hand, Owner);
@@ -85,8 +89,22 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
     }
 
     protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(2); }
-    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; CurrentDamage = DynamicVars.Damage.BaseValue; }
-    public void SetRepeats(decimal amount) { DynamicVars.Repeat.BaseValue = amount; CurrentRepeats = DynamicVars.Repeat.BaseValue; }
+    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; CurrentDamage = DynamicVars.Damage.BaseValue - 2m * CurrentUpgradeLevel; }
+    public void SetRepeats(decimal amount)
+    {
+        DynamicVars.Repeat.BaseValue = amount;
+        _progressionRepeatBonus = 0m;
+        SyncProgressionRewards();
+    }
+    public void SyncProgressionRewards()
+    {
+        if (!IsMutable) return;
+        decimal bonus = WeaponRewardRuntime.Has(this, 2) ? 1m : 0m;
+        DynamicVars.Repeat.BaseValue += bonus - _progressionRepeatBonus;
+        _progressionRepeatBonus = bonus;
+        CurrentRepeats = DynamicVars.Repeat.BaseValue;
+        DynamicVars["ShatterCount"].BaseValue = WeaponRewardRuntime.Has(this, 1) ? 4m : 3m;
+    }
     protected override void AfterDowngraded() { base.AfterDowngraded(); DynamicVars.Damage.BaseValue = CurrentDamage; DynamicVars.Repeat.BaseValue = CurrentRepeats; }
     protected override void AfterCloned() { base.AfterCloned(); CreatedThroughForge = false; }
 
@@ -98,19 +116,15 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
 
     public override Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
     {
-        if (card != this) return Task.CompletedTask;
-        if (oldPileType == PileType.None || oldPileType == PileType.Exhaust)
-        {
-            if (_vfx == null)
-            {
-                _vfx = EnsureWeaponVfx("SovereignCrystalBlade.tscn");
-            }
-        }
-        if (card.Pile?.Type == PileType.Exhaust)
+        if (card != this || IsDupe) return Task.CompletedTask;
+        SyncProgressionRewards();
+        if (Pile?.IsCombatPile != true || Pile.Type == PileType.Exhaust)
         {
             RemoveWeaponVfx();
             _vfx = null;
         }
+        else
+            _vfx = EnsureWeaponVfx("orbit/SovereignCrystalBlade.tscn");
         return Task.CompletedTask;
     }
 }

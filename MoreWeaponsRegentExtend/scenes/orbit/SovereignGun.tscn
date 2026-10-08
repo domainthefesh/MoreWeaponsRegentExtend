@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignGun.png" id="1_weapon"]
+
+[node name="SovereignGunOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+scale = Vector2(0.0939086, 0.0939086)
+offset = Vector2(-1.500, -21.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -80.000
+offset_top = -38.258
+offset_right = 80.000
+offset_bottom = 38.258
+mouse_filter = 2

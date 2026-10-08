@@ -1,10 +1,18 @@
 {
-    "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.title": "碎裂",
-    "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.description": "消耗。将3张水晶小刀加入手牌。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.title": "天启",
-    "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.description": "给予以下七种负面效果中的一种：易伤2、虚弱2、中毒5、灾厄10、消亡3、失衡、紧勒。",
-
-    "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.title": "晶态",
-    "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.description": "当受到超出格挡的伤害时，消耗。"
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.title": "碎裂",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.description": "消耗。将水晶小刀加入手牌，数量见卡牌。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.title": "天启",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.description": "给予以下七种负面效果中的一种：易伤2、虚弱2、中毒5、灾厄10、消亡3、失衡、紧勒。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.title": "晶态",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.description": "当受到超出格挡的伤害时，消耗。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.title": "架势",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.description": "打出后依次切换：轻挥→横扫→重劈→轻挥。\n轻挥：费用减少1，伤害为80%。\n横扫：攻击所有敌人；[gold]追踪之刃[/gold]生效时改为攻击两次。\n重劈：费用增加1，伤害为120%；伤害突破格挡时使目标眩晕2回合。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.title": "热寂灭",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.description": "无法以任何方式打出。\n生成时加入绑定此炮的充能。将其全部打出后转为[gold]热启动[/gold]。\n所需数量见卡牌；手牌已满时，充能进入弃牌堆。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.title": "热启动",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.description": "充能完成，可以打出。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.title": "赐福",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.description": "打出时随机获得以下效果之一：\n力量2、敏捷2、明耀2、再生3、活力6、好奇1、壁垒1。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.title": "武痴",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.description": "生成时消耗本场战斗所有基础攻击牌，并获得[gold]武痴[/gold]。"
 }

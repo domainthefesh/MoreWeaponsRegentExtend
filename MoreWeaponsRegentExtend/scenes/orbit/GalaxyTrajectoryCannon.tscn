@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/GalaxyTrajectoryCannon.png" id="1_weapon"]
+
+[node name="GalaxyTrajectoryCannonOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+scale = Vector2(0.13129103, 0.13129103)
+offset = Vector2(-0.500, -20.500)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -96.000
+offset_top = -41.777
+offset_right = 96.000
+offset_bottom = 41.777
+mouse_filter = 2

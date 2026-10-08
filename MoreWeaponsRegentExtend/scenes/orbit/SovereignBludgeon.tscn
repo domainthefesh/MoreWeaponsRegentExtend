@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignBludgeon.png" id="1_weapon"]
+
+[node name="SovereignBludgeonOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+flip_h = true
+scale = Vector2(0.1090909, 0.1090909)
+offset = Vector2(9.500, -16.500)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -81.000
+offset_top = -40.036
+offset_right = 81.000
+offset_bottom = 40.036
+mouse_filter = 2

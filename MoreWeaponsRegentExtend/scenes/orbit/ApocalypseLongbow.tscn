@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/ApocalypseLongbow.png" id="1_weapon"]
+
+[node name="ApocalypseLongbowOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+flip_h = true
+scale = Vector2(0.1500938, 0.1500938)
+offset = Vector2(20.500, 2.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -36.469
+offset_top = -86.000
+offset_right = 36.469
+offset_bottom = 86.000
+mouse_filter = 2

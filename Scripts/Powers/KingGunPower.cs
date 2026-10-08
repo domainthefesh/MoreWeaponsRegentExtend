@@ -11,10 +11,13 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using MoreWeaponsRegentExtend.Scripts.Cards;
+using MoreWeaponsRegentExtend.Scripts.Progression;
 
 namespace MoreWeaponsRegentExtend.Scripts.Powers;
 
@@ -25,9 +28,22 @@ public sealed class KingGunPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    public override LocString Description
+    {
+        get
+        {
+            var description = base.Description;
+            description.Add("BulletExtraHit", IsMutable && Owner?.Player is { } player &&
+                WeaponProgression.HasReward(player, WeaponKind.SovereignGun, 2));
+            description.Add("JadeBonus", IsMutable && Owner?.Player is { } jadePlayer &&
+                WeaponProgression.HasReward(jadePlayer, WeaponKind.SovereignGun, 3));
+            return description;
+        }
+    }
+
     public override PowerAssetProfile AssetProfile => new(
         IconPath: "res://MoreWeaponsRegentExtend/images/powers/KingGunPower.png",
-        BigIconPath: "res://MoreWeaponsRegentExtend/images/powers/KingGunPower_big.png"
+        BigIconPath: "res://MoreWeaponsRegentExtend/images/powers/KingGunPower.png"
     );
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
@@ -87,7 +103,13 @@ public sealed class KingGunPower : ModPowerTemplate
             out IEnumerable<AbstractModel> _);
 
         // 加上能力层数（铸造累计值）
-        decimal totalDamage = cardDamage + base.Amount;
+        // Bullet damage already includes this same rifle's flat tempering bonus.
+        // Other consumed cards retain their own calculated damage, then the rifle
+        // adds its own base bonus once to each shot.
+        decimal rifleBonus = card is not Bullet &&
+            WeaponProgression.HasReward(player, WeaponKind.SovereignGun, 3)
+                ? WeaponRewardRuntime.JadeBaseDamageBonus : 0m;
+        decimal totalDamage = cardDamage + base.Amount + rifleBonus;
 
         // 消耗选中的卡牌
         await CardCmd.Exhaust(choiceContext, card);
@@ -101,6 +123,10 @@ public sealed class KingGunPower : ModPowerTemplate
             {
                 await CreatureCmd.Damage(choiceContext, target, totalDamage,
                     ValueProp.Move, player.Creature);
+                if (card is Bullet && target.IsAlive &&
+                    WeaponProgression.HasReward(player, WeaponKind.SovereignGun, 2))
+                    await CreatureCmd.Damage(choiceContext, target, totalDamage,
+                        ValueProp.Move, player.Creature);
             }
         }
     }

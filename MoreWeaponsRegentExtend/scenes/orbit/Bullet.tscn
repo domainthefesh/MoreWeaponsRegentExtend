@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/Bullet.png" id="1_weapon"]
+
+[node name="BulletOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+rotation = 1.5707963
+scale = Vector2(0.0614334, 0.0614334)
+offset = Vector2(0.500, 14.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -42.000
+offset_top = -15.000
+offset_right = 42.000
+offset_bottom = 15.000
+mouse_filter = 2

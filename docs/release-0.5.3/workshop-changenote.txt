@@ -1,0 +1,89 @@
+[h1]兵器库全面更新｜0.5.3[/h1]
+[b]16件武器、开局选兵器、统一美术与完整中英文。[/b]
+
+自七月初版以来，百般武艺迎来一次完整扩充。感谢一直保留订阅的玩家，也欢迎回来看看储君的新兵器库！
+
+[h2]新增：出发前选兵器[/h2]
+[list]
+[*]涅奥事件后进入兵器库，支持亲自挑选、随机固定一把、每次铸造随机三种模式。
+[*]保留轻巧、厚重、远程、特殊四组分类，支持返回与自动分页，避免选项被遮挡。
+[*]原模组设置中的自定义随机池已改为开局事件选择。
+[/list]
+
+[h2]扩充：从8件武器到16件[/h2]
+[list]
+[*]新增海王三叉戟、天皇太刀、君王之翼、君王短匕、定海圣棍、银河轨迹炮、光之圣典、皇家指虎。
+[*]圣棍拥有三种循环架势；轨迹炮独立绑定三张充能，热启动后攻击全体敌人；圣典提供随机赐福；指虎通过武痴与适应改变战斗方式。
+[*]新增附属牌“充能”；水晶小刀、子弹与充能共3张附属牌。
+[*]新增初始牌“趁手兵器”，替换一张初始打击：铸造3，升级后铸造5。
+[/list]
+
+[h2]调整：已有武器[/h2]
+[list]
+[*]君王重锤重做为3费、15点基础伤害，给予2层重压；低于重压阈值的敌方伤害变为0，阈值随铸造提高。
+[*]君王镰刀基础灾厄改为10，受铸造加成；君王长矛额外铸造改为4；君王之翼改为2费。
+[*]天启长弓更名为“邪皇圣弓”，君王新枪更名为“皇室猎枪”，并重绘相关素材；太刀更名为“天皇太刀”。
+[*]光之圣典基础赐福为1，每累计铸造10额外赐福1；皇家指虎突破格挡的铸造收益调整为8。
+[/list]
+
+[h2]完善：原版联动与修复[/h2]
+[list]
+[*]补齐招架（Parry）、追踪之刃、剑圣、征服者、征召上前等原版联动，包含君王之翼、皇室猎枪和附属武器。
+[*]修复部分武器在追踪之刃后停留画面中央的问题。
+[*]修复战后武器残留及地图遮挡，恢复原版斜向椭圆悬浮轨道，调整武器大小与朝向。
+[*]修复部分武器首次铸造重复加值、能力文本占位符，以及无效卡框资源路径提示。
+[/list]
+
+[h2]焕新：美术与本地化[/h2]
+[list]
+[*]统一卡图、悬浮素材与状态图标的风格；补齐兵器库插画和攻击／施放特效。
+[*]全新双语发布封面。
+[*]补齐全部卡牌、能力、关键词和兵器库事件的英文本地化。
+[/list]
+
+[b]依赖仍为STS2-RitsuLib，请同时启用。欢迎在评论区分享新版体验与问题反馈。[/b]
+
+[h1]Arsenal Overhaul | 0.5.3[/h1]
+[b]16 weapons, an opening armory, refreshed artwork, and complete Chinese/English text.[/b]
+
+Sovereign Arsenal has grown substantially since its July debut. Thank you to everyone who stayed subscribed, and welcome back to the Regent's expanded armory!
+
+[h2]New: The Departure Armory[/h2]
+[list]
+[*]Visit the armory after Neow. Choose a weapon, lock in one random weapon, or use a random weapon whenever Forge needs to create one.
+[*]Four categories—Light, Heavy, Ranged, and Special—with back navigation and automatic pagination to keep choices visible.
+[*]Opening-event choices replace the old configurable weapon pool in mod settings.
+[/list]
+
+[h2]Expanded: From 8 Weapons to 16[/h2]
+[list]
+[*]Added Neptune's Trident, Imperial Katana, Sovereign Wings, Sovereign Dagger, Sea Calming Staff, Galactic Trajectory Cannon, Codex of Light, and Royal Knuckles.
+[*]The staff cycles through three Stances. Each cannon has three bound Charges and attacks ALL enemies once ready. The Codex grants random Blessings. Knuckles change combat through Martial Fanatic and Adaptation.
+[*]Added Charge, bringing supporting cards to three alongside Crystal Dagger and Bullet.
+[*]Added Handy Weapon, replacing one starting Strike: Forge 3, or Forge 5 when upgraded.
+[/list]
+
+[h2]Updated: Existing Weapons[/h2]
+[list]
+[*]Sovereign Warhammer now costs 3, deals 15 base damage, and applies 2 Heavy Pressure. Enemy damage below its threshold becomes 0; the threshold increases with Forge.
+[*]Sovereign Scythe now applies 10 base Doom, scaling with Forge. Sovereign Spear gains 4 extra Forge. Sovereign Wings costs 2.
+[*]Renamed and redesigned the bow as Dread Emperor's Sacred Bow and the gun as Royal Rifle. The katana is now Imperial Katana.
+[*]Codex of Light starts with 1 Blessing and gains 1 more for every 10 cumulative Forge. Royal Knuckles' unblocked-damage reward is now Forge 8.
+[/list]
+
+[h2]Improved: Base-Game Interactions and Fixes[/h2]
+[list]
+[*]Completed Parry, Seeking Edge, Sword Sage, Conqueror, and Summon Forth interactions, including Wings, Rifle, and supporting weapons.
+[*]Fixed some weapon cards remaining in the center of the screen after Seeking Edge.
+[*]Fixed floating weapons persisting after combat or covering the map. Restored the base game's diagonal elliptical path and adjusted sizes and orientations.
+[*]Fixed duplicate initial Forge gains on some weapons, unresolved power-text variables, and invalid card-frame resource warnings.
+[/list]
+
+[h2]Refreshed: Art and Localization[/h2]
+[list]
+[*]Unified card art, floating weapons, and status icons; completed armory illustrations and attack/cast effects.
+[*]New bilingual Workshop cover.
+[*]Complete English localization for cards, powers, keywords, and armory events.
+[/list]
+
+[b]STS2-RitsuLib is still required. Please enable it alongside this mod, and share your experiences or issues in the comments.[/b]

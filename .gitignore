@@ -1,8 +1,23 @@
-# Godot 4+ specific ignores
-.godot/
+# Godot/.NET caches and local build output.
+# Keep authored .import and .uid files; Godot regenerates .godot/ on import.
+/.godot/
+/.build/
+/bin/
+/obj/
+
+# Local editor and agent configuration.
+/.vs/
+/.vscode/
+/.claude/
+/.agents/
+/.codex/
+*.user
+*.suo
+
+# Extracted vanilla-game resources, not mod-authored resources.
+# Keep MoreWeaponsRegentExtend/images/ and MoreWeaponsRegentExtend/scenes/.
 /android/
 /animations/
-/bin/
 /fonts/
 /images/
 /scenes/
@@ -10,6 +25,36 @@
 /sts2_decompiled/
 /themes/
 /tutorials/
-/.claude/
-/.agents/
+
+# Local design experiments, unused art variants and development notes.
+# Keep docs/update-*.md, release copy and tools/ for source/release reference.
+/design-demos/
+/docs/art-*/
+/docs/art-*.md
+/docs/card-frame-trial/
+/docs/ui-*/
+/docs/ui-feedback-*.md
+/docs/progression-ui-design-*.md
+/docs/*-prompt.md
+/docs/*-prompts.md
+/docs/progress.md
+/docs/roadmap.md
+/docs/workspace-cleanup-*.md
+/todolist.md
+
+# Superseded combined-language drafts; publish each language separately.
+/docs/release-*/workshop-*-bilingual*.txt
+
+# Compiled packages belong in GitHub Release assets, not source history.
 *.pck
+*.dll
+*.pdb
+*.zip
+*.tmp
+*.log
+*.bak
+
+# OS-generated files.
+.DS_Store
+Thumbs.db
+Desktop.ini

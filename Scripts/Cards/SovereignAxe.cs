@@ -17,6 +17,7 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.ValueProps;
 using MoreWeaponsRegentExtend.Scripts.Powers;
 using STS2RitsuLib.Keywords;
+using MoreWeaponsRegentExtend.Scripts.Progression;
 
 namespace MoreWeaponsRegentExtend.Scripts.Cards;
 
@@ -34,7 +35,16 @@ public class SovereignAxe : MoreWeaponsCardBase
     private NWeaponVfx? _vfx;
 
     public override HashSet<CardKeyword> CanonicalKeywords => new() { CardKeyword.Retain };
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<BleedPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => WeaponRewardRuntime.Has(this, 2)
+        ? [GetBleedHoverTip(), HoverTipFactory.FromPower<RendPower>()]
+        : [GetBleedHoverTip()];
+    public decimal BleedPercent => WeaponRewardRuntime.Has(this, 1) ? 5m : 3m;
+    private IHoverTip GetBleedHoverTip()
+    {
+        var preview = ModelDb.Power<BleedPower>().ToMutable();
+        preview.DynamicVars["BleedPercent"].BaseValue = BleedPercent;
+        return HoverTipFactory.FromPower(preview);
+    }
 
     public override TargetType TargetType
     {
@@ -50,13 +60,14 @@ public class SovereignAxe : MoreWeaponsCardBase
         new DamageVar(_baseDamage, ValueProp.Move),
         new CalculationBaseVar(0m), new CalculationExtraVar(1m),
         new CalculatedBlockVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetOwnerParryAmount(card)),
+        new PowerVar<BleedPower>(2), new DynamicVar("BleedPercent", 3m), new PowerVar<RendPower>(2),
     ];
 
     public SovereignAxe() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary) { }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var target = cardPlay.Target!;
+        SyncProgressionRewards();
         string animName = "Cast"; float delay = Owner.Character.CastAnimDelay;
         string sfxPath = "event:/sfx/characters/regent/regent_sovereign_blade";
         var cmd = DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay)
@@ -67,19 +78,30 @@ public class SovereignAxe : MoreWeaponsCardBase
                 .BeforeDamage(TriggerWeaponAttackFirstEnemy)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3").Execute(choiceContext);
         else
-            await cmd.Targeting(target)
-                .BeforeDamage(() => TriggerWeaponAttack(target))
+            await cmd.Targeting(cardPlay.Target!)
+                .BeforeDamage(() => TriggerWeaponAttack(cardPlay.Target))
                 .WithHitVfxNode(NBigSlashVfx.Create).WithHitVfxNode(NBigSlashImpactVfx.Create).Execute(choiceContext);
 
         if (GetOwnerParryAmount(this) > 0m)
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.CalculatedBlock.Calculate(cardPlay.Target),
                 DynamicVars.CalculatedBlock.Props, cardPlay);
 
-        await PowerCmd.Apply<BleedPower>(choiceContext, target, 2m, Owner.Creature, this);
+        foreach (var target in GetSurvivingAttackTargets(cmd))
+        {
+            await PowerCmd.Apply<BleedPower>(choiceContext, target,
+                DynamicVars["BleedPower"].BaseValue, Owner.Creature, this);
+            if (WeaponRewardRuntime.Has(this, 2) && target.IsAlive)
+                await PowerCmd.Apply<RendPower>(choiceContext, target,
+                    DynamicVars["RendPower"].BaseValue, Owner.Creature, this);
+        }
     }
 
     protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(4); }
-    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; CurrentDamage = DynamicVars.Damage.BaseValue; }
+    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; CurrentDamage = DynamicVars.Damage.BaseValue - 4m * CurrentUpgradeLevel; }
+    public void SyncProgressionRewards()
+    {
+        if (IsMutable) DynamicVars["BleedPercent"].BaseValue = BleedPercent;
+    }
     protected override void AfterDowngraded() { base.AfterDowngraded(); DynamicVars.Damage.BaseValue = CurrentDamage; }
     protected override void AfterCloned() { base.AfterCloned(); CreatedThroughForge = false; }
 
@@ -91,19 +113,15 @@ public class SovereignAxe : MoreWeaponsCardBase
 
     public override Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
     {
-        if (card != this) return Task.CompletedTask;
-        if (oldPileType == PileType.None || oldPileType == PileType.Exhaust)
-        {
-            if (_vfx == null)
-            {
-                _vfx = EnsureWeaponVfx("SovereignAxe.tscn");
-            }
-        }
-        if (card.Pile?.Type == PileType.Exhaust)
+        if (card != this || IsDupe) return Task.CompletedTask;
+        SyncProgressionRewards();
+        if (Pile?.IsCombatPile != true || Pile.Type == PileType.Exhaust)
         {
             RemoveWeaponVfx();
             _vfx = null;
         }
+        else
+            _vfx = EnsureWeaponVfx("orbit/SovereignAxe.tscn");
         return Task.CompletedTask;
     }
 }

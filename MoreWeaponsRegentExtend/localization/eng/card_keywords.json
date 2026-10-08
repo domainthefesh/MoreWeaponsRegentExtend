@@ -1,0 +1,18 @@
+{
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.title": "Shatter",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.description": "Exhaust. Add Crystal Daggers to your hand; the card shows how many.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.title": "Apocalypse",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.description": "Apply one random effect: 2 Vulnerable, 2 Weak, 5 Poison, 10 Doom, 3 Demise, 1 Imbalanced, or 1 Strangle.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.title": "Crystalline",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.description": "When you take unblocked damage, Exhaust a Sovereign Shield.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.title": "Stance",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.description": "After playing, cycle through Light Swing → Sweep → Heavy Chop → Light Swing.\nLight Swing: Costs 1 less Energy and deals 80% damage.\nSweep: Attacks ALL enemies; attacks twice with [gold]Seeking Edge[/gold].\nHeavy Chop: Costs 1 more Energy and deals 120% damage; if damage gets through Block, Stun the target for 2 turns.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.title": "Heat Death",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.description": "Cannot be played in any way.\nWhen generated, add Charges bound to this cannon. Play them all to become [gold]Hot Start[/gold].\nThe card shows the number required. A full hand sends Charges to the discard pile.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.title": "Hot Start",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.description": "Fully charged. Can be played.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.title": "Blessing",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.description": "When played, gain one random effect per Blessing:\n2 Strength, 2 Dexterity, 2 Radiance, 3 Regen, 6 Vigor, 1 Curious, or 1 Barricade.",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.title": "Martial Fanatic",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.description": "When generated, Exhaust all Basic Attacks in this combat and gain [gold]Martial Fanatic[/gold]."
+}

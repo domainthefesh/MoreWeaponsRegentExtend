@@ -1,0 +1,105 @@
+[h1]百般武艺：储君扩展[/h1]
+[b]十六件兵器，让储君的每一次攀塔都有自己的战斗方式。[/b]
+
+一个让储君不再只能铸造大剑的扩展模组。
+
+从晶刃、圣棍到猎枪、轨迹炮，从君王之翼到光之圣典——选定你的兵器，在战斗中持续铸造与强化，围绕它构筑自己的打法。
+
+[h2]出发前，选一把趁手的兵器[/h2]
+涅奥事件结束后，储君会进入兵器库。你可以选择三种方式开始本局：
+[list]
+[*][b]挑选兵器[/b]：从四类武器中亲自选择一把，固定本局的铸造武器。
+[*][b]随心所欲[/b]：随机选定一把武器，整局围绕它战斗。
+[*][b]百武皆通[/b]：每次需要铸造出武器时，重新随机选择。
+[/list]
+兵器库支持分类、返回和自动分页。武器选择已整合到开局事件，无需在模组设置中配置随机池。
+
+[h2]十六件武器，四种分类[/h2]
+[list]
+[*][b]轻巧[/b]：君王晶刃、君王短匕、海王三叉戟、天皇太刀、定海圣棍。
+[*][b]厚重[/b]：君王镰刀、君王重斧、君王重锤、君王长矛、君王之盾。
+[*][b]远程[/b]：邪皇圣弓、皇室猎枪、银河轨迹炮。
+[*][b]特殊[/b]：君王之翼、光之圣典、皇家指虎。
+[/list]
+切换圣棍的三种架势，为轨迹炮完成充能，借圣典获得赐福，或以皇家指虎进入武痴状态。每件武器都有不同的效果、铸造收益与使用节奏。
+
+[h2]完整的卡牌与美术[/h2]
+[list]
+[*]16件主武器、3张附属衍生牌（水晶小刀、子弹、充能），以及1张新增初始牌，共20张卡牌。
+[*]初始牌“趁手兵器”替换储君的一张初始打击：铸造3，升级后铸造5。
+[*]统一风格的卡图、兵器库插画、状态图标，以及武器悬浮与攻击／施放特效。
+[*]支持招架（Parry）、追踪之刃、剑圣、征服者、征召上前等原版君王之剑联动。
+[*]完整中文与英文本地化。
+[/list]
+
+[h2]依赖与安装[/h2]
+本模组基于 [b]STS2-RitsuLib[/b] 开发，使用前请安装并启用该依赖。
+[list]
+[*]订阅本模组与STS2-RitsuLib。
+[*]启动游戏，在模组列表中启用两者，并按游戏提示重启。
+[*]选择储君开始游戏，在涅奥事件后进入兵器库。
+[/list]
+
+[h2]AI内容说明[/h2]
+本模组部分美术与创作内容由AI生成或辅助制作，并经过筛选、修改与整合。
+
+[h2]反馈与建议[/h2]
+欢迎在工坊评论区反馈效果异常、翻译错误、数值平衡或模组兼容性问题，也欢迎分享新的武器设计。
+
+反馈问题时，请尽量附上问题场景、游戏与模组版本、其他已启用模组，以及相关日志或截图。
+
+感谢你的订阅与游玩！
+[b]百般武艺，皆可铸成。[/b]
+
+[h1]Sovereign Arsenal — Regent Expansion[/h1]
+[b]Choose your weapon. Forge your own path.[/b]
+
+An expansion that lets the Regent Forge more than a greatsword.
+
+From crystal blades and staves to rifles and trajectory cannons, from Sovereign Wings to the Codex of Light: choose your weapon, strengthen it with Forge during combat, and build around its unique strengths.
+
+[h2]Choose Your Weapon Before the Climb[/h2]
+After Neow's event, the Regent visits the Departure Armory. Choose how to equip yourself for this run:
+[list]
+[*][b]Choose a Weapon[/b]: Select a weapon from four categories and make it your Forge weapon for the run.
+[*][b]Let Fate Decide[/b]: Randomly select one weapon and use it throughout the run.
+[*][b]Master of All Arms[/b]: Whenever Forge needs to create a weapon, one is selected at random.
+[/list]
+The armory includes categories, back navigation, and automatic pagination. Weapon selection is now part of the opening event; no mod-settings weapon pool setup is needed.
+
+[h2]Sixteen Weapons, Four Categories[/h2]
+[list]
+[*][b]Light[/b]: Sovereign Crystal Blade, Sovereign Dagger, Neptune's Trident, Imperial Katana, Sea Calming Staff.
+[*][b]Heavy[/b]: Sovereign Scythe, Sovereign Greataxe, Sovereign Warhammer, Sovereign Spear, Sovereign Shield.
+[*][b]Ranged[/b]: Dread Emperor's Sacred Bow, Royal Rifle, Galactic Trajectory Cannon.
+[*][b]Special[/b]: Sovereign Wings, Codex of Light, Royal Knuckles.
+[/list]
+Cycle through the staff's three Stances, charge your cannon, receive Blessings from the Codex, or become a Martial Fanatic with Royal Knuckles. Each weapon has different effects, Forge benefits, and decisions to make in combat.
+
+[h2]Cards, Artwork, and Interactions[/h2]
+[list]
+[*]20 cards: 16 main weapons, 3 supporting cards (Crystal Dagger, Bullet, and Charge), and 1 new starting card.
+[*]Handy Weapon replaces one of the Regent's starting Strikes: Forge 3, or Forge 5 when upgraded.
+[*]Matching card art, armory illustrations, status icons, floating weapons, and attack/cast effects.
+[*]Supports Sovereign Blade interactions including Parry, Seeking Edge, Sword Sage, Conqueror, and Summon Forth.
+[*]Complete Chinese and English localization.
+[/list]
+
+[h2]Dependency and Installation[/h2]
+This mod is built with [b]STS2-RitsuLib[/b]. Install and enable this dependency before playing.
+[list]
+[*]Subscribe to this mod and STS2-RitsuLib.
+[*]Launch the game, enable both in the mod list, and restart when prompted.
+[*]Start a run as the Regent and visit the armory after Neow's event.
+[/list]
+
+[h2]AI-Assisted Content[/h2]
+Some artwork and creative content was generated or assisted by AI, then selected, revised, and integrated into the mod.
+
+[h2]Feedback and Suggestions[/h2]
+Please use the Workshop comments to report unexpected effects, translation errors, balance concerns, or mod compatibility issues. New weapon ideas are welcome too.
+
+When reporting an issue, please include what happened, your game and mod versions, other enabled mods, and any relevant logs or screenshots.
+
+Thank you for subscribing and playing!
+[b]An arsenal of possibilities, forged for your climb.[/b]

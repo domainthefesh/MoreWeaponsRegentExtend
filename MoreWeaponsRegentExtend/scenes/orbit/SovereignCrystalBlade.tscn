@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignCrystalBlade.png" id="1_weapon"]
+
+[node name="SovereignCrystalBladeOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+rotation = 1.5707963
+scale = Vector2(0.1644101, 0.1644101)
+offset = Vector2(-28.500, 5.500)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -91.000
+offset_top = -26.633
+offset_right = 91.000
+offset_bottom = 26.633
+mouse_filter = 2

@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_chest.svg" id="1_chest"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_chest_lid.svg" id="2_lid"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_spark.svg" id="3_spark"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_halo.svg" id="4_halo"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_add"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.12, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 0.7, 0.25, 0)
+
+[node name="HandyWeaponVfx" type="Node2D"]
+z_index = 2
+
+[node name="Halo" type="Sprite2D" parent="."]
+material = SubResource("Material_add")
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("4_halo")
+
+[node name="Icon" type="Node2D" parent="."]
+scale = Vector2(0.9, 0.9)
+
+[node name="Body" type="Sprite2D" parent="Icon"]
+position = Vector2(0, 17)
+texture = ExtResource("1_chest")
+
+[node name="LidPivot" type="Node2D" parent="Icon"]
+position = Vector2(-68, -18)
+
+[node name="Lid" type="Sprite2D" parent="Icon/LidPivot"]
+position = Vector2(68, -21)
+texture = ExtResource("2_lid")
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+material = SubResource("Material_add")
+position = Vector2(0, -18)
+emitting = false
+amount = 28
+lifetime = 0.75
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("3_spark")
+direction = Vector2(0, -1)
+spread = 68.0
+gravity = Vector2(0, 210)
+initial_velocity_min = 100.0
+initial_velocity_max = 230.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+scale_amount_min = 0.14
+scale_amount_max = 0.34
+color_ramp = SubResource("Gradient_fade")
+emission_shape = 3
+emission_rect_extents = Vector2(38, 6)

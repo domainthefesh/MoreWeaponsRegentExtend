@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignWings.png" id="1_weapon"]
+
+[node name="SovereignWingsOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+scale = Vector2(0.1178782, 0.1178782)
+offset = Vector2(0.500, 39.000)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -96.000
+offset_top = -60.578
+offset_right = 96.000
+offset_bottom = 60.578
+mouse_filter = 2

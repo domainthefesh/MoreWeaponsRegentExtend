@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignScythe.png" id="1_weapon"]
+
+[node name="SovereignScytheOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+flip_h = true
+scale = Vector2(0.1525424, 0.1525424)
+offset = Vector2(22.000, -10.500)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -96.000
+offset_top = -95.619
+offset_right = 96.000
+offset_bottom = 95.619
+mouse_filter = 2

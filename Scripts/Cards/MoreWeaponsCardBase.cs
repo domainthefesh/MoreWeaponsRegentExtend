@@ -1,13 +1,21 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using MoreWeaponsRegentExtend.Scripts.Progression;
 
 namespace MoreWeaponsRegentExtend.Scripts.Cards;
 
@@ -16,15 +24,19 @@ namespace MoreWeaponsRegentExtend.Scripts.Cards;
 public abstract class MoreWeaponsCardBase : ModCardTemplate
 {
     public override CardAssetProfile AssetProfile => new(
-        PortraitPath: $"res://MoreWeaponsRegentExtend/images/cards/{GetType().Name}.png",
-        FramePath: this.Type switch
-        {
-            CardType.Attack => "res://MoreWeaponsRegentExtend/images/card_frame_attack.png",
-            CardType.Skill => "res://MoreWeaponsRegentExtend/images/card_frame_skill.png",
-            CardType.Power => "res://MoreWeaponsRegentExtend/images/card_frame_power.png",
-            _ => ""
-        }
+        PortraitPath: $"res://MoreWeaponsRegentExtend/images/cards/{GetType().Name}.png"
     );
+
+    protected override void AddExtraArgsToDescription(LocString description)
+    {
+        WeaponRewardRuntime.Sync(this);
+        base.AddExtraArgsToDescription(description);
+        description.Add("HasParry", GetOwnerParryAmount(this) > 0m);
+        description.Add("Reward1", WeaponRewardRuntime.Has(this, 1));
+        description.Add("Reward2", WeaponRewardRuntime.Has(this, 2));
+        description.Add("Reward3", WeaponRewardRuntime.Has(this, 3));
+        description.Add("FirstAvailable", WeaponRewardRuntime.IsFirstAvailable(this));
+    }
 
     protected MoreWeaponsCardBase(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary)
         : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -40,9 +52,24 @@ public abstract class MoreWeaponsCardBase : ModCardTemplate
         return amount;
     }
 
+    protected static IEnumerable<DynamicVar> ParryVars() =>
+    [
+        new CalculationBaseVar(0m),
+        new CalculationExtraVar(1m),
+        new CalculatedBlockVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetOwnerParryAmount(card))
+    ];
+
+    // 与原版剑一致：每次实际出牌独立获得格挡，交给原版处理敏捷、脆弱等修正。
+    protected Task GainParryBlock(CardPlay cardPlay) => GetOwnerParryAmount(this) > 0m
+        ? CreatureCmd.GainBlock(Owner.Creature, DynamicVars.CalculatedBlock.Calculate(cardPlay.Target),
+            DynamicVars.CalculatedBlock.Props, cardPlay)
+        : Task.CompletedTask;
+
     // === VFX 清理：尝试移除浮空剑 VFX ===
     protected void RemoveVfxIfAny()
     {
+        if (IsDupe)
+            return;
         NWeaponVfx.RemoveFor(this);
 
         try
@@ -53,13 +80,14 @@ public abstract class MoreWeaponsCardBase : ModCardTemplate
         catch { /* VFX 清理失败不抛异常 */ }
     }
 
-    protected NWeaponVfx EnsureWeaponVfx(string sceneName) => NWeaponVfx.EnsureAttached(this, sceneName);
+    protected NWeaponVfx? EnsureWeaponVfx(string sceneName) => NWeaponVfx.EnsureAttached(this, sceneName);
 
     protected void RemoveWeaponVfx() => NWeaponVfx.RemoveFor(this);
 
     protected Task TriggerWeaponAttack(Creature? target)
     {
         NWeaponVfx.AttackFor(this, target);
+        NUpdateCardVfx.Play(this, target);
         return Task.CompletedTask;
     }
 
@@ -67,8 +95,18 @@ public abstract class MoreWeaponsCardBase : ModCardTemplate
     {
         var enemies = CombatState?.HittableEnemies;
         if (enemies != null && enemies.Count > 0)
+        {
             NWeaponVfx.AttackFor(this, enemies[0]);
+            foreach (var enemy in enemies)
+                NUpdateCardVfx.Play(this, enemy);
+        }
 
         return Task.CompletedTask;
     }
+
+    // 群体卡的 cardPlay.Target 为空；附加效果跟随实际受击者。
+    protected static IReadOnlyList<Creature> GetSurvivingAttackTargets(AttackCommand attack) =>
+        attack.Results.SelectMany(results => results)
+            .Select(result => result.Receiver).Distinct()
+            .Where(target => target.IsAlive).ToArray();
 }

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/HolyCodex.png" id="1_weapon"]
+
+[node name="HolyCodexOrbit" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Weapon" type="Sprite2D" parent="Visual"]
+scale = Vector2(0.14853556, 0.14853556)
+offset = Vector2(2.000, -1.500)
+texture = ExtResource("1_weapon")
+
+[node name="Hitbox" type="Control" parent="Visual"]
+layout_mode = 0
+offset_left = -77.000
+offset_top = -71.876
+offset_right = 77.000
+offset_bottom = 71.876
+mouse_filter = 2

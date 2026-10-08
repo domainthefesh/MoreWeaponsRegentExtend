@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/unified/SovereignKatana.png" id="1_icon"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_slash.svg" id="2_slash"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_spark.svg" id="3_spark"]
+[ext_resource type="Texture2D" path="res://MoreWeaponsRegentExtend/images/vfx/update_halo.svg" id="4_halo"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_add"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_fade"]
+offsets = PackedFloat32Array(0, 0.08, 1)
+colors = PackedColorArray(0.8, 0.9, 1, 0, 0.8, 0.9, 1, 1, 0.4, 0.55, 1, 0)
+
+[node name="SovereignKatanaVfx" type="Node2D"]
+z_index = 2
+
+[node name="Halo" type="Sprite2D" parent="."]
+material = SubResource("Material_add")
+modulate = Color(0.55, 0.7, 1, 0.6)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_halo")
+
+[node name="Slash" type="Sprite2D" parent="."]
+material = SubResource("Material_add")
+scale = Vector2(0.86, 0.86)
+texture = ExtResource("2_slash")
+
+[node name="Icon" type="Sprite2D" parent="."]
+offset = Vector2(-14.500, 10.000)
+scale = Vector2(0.1675787, 0.1675787)
+texture = ExtResource("1_icon")
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+material = SubResource("Material_add")
+emitting = false
+amount = 17
+lifetime = 0.48
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("3_spark")
+direction = Vector2(1, -0.6)
+spread = 28.0
+gravity = Vector2(0, 65)
+initial_velocity_min = 120.0
+initial_velocity_max = 290.0
+scale_amount_min = 0.09
+scale_amount_max = 0.23
+color_ramp = SubResource("Gradient_fade")
+emission_shape = 3
+emission_rect_extents = Vector2(3, 38)

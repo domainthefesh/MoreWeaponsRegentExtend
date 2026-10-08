@@ -18,6 +18,8 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.ValueProps;
 using MoreWeaponsRegentExtend.Scripts;
 using STS2RitsuLib.Keywords;
+using MoreWeaponsRegentExtend.Scripts.Powers;
+using MoreWeaponsRegentExtend.Scripts.Progression;
 
 namespace MoreWeaponsRegentExtend.Scripts.Cards;
 
@@ -36,7 +38,9 @@ public class ApocalypseLongbow : MoreWeaponsCardBase
     private NWeaponVfx? _vfx;
 
     public override HashSet<CardKeyword> CanonicalKeywords => new() { CardKeyword.Retain, MyKeywords.Apocalypse };
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromKeyword(MyKeywords.Apocalypse)];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => WeaponRewardRuntime.Has(this, 2)
+        ? [HoverTipFactory.FromKeyword(MyKeywords.Apocalypse), HoverTipFactory.FromPower<LifeLockPower>()]
+        : [HoverTipFactory.FromKeyword(MyKeywords.Apocalypse)];
 
     public override TargetType TargetType
     {
@@ -53,12 +57,14 @@ public class ApocalypseLongbow : MoreWeaponsCardBase
         new DamageVar(_baseDamage, ValueProp.Move), new DynamicVar("DebuffCount", 1m),
         new CalculationBaseVar(0m), new CalculationExtraVar(1m),
         new CalculatedBlockVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetOwnerParryAmount(card)),
+        new PowerVar<LifeLockPower>(1),
     ];
 
     public ApocalypseLongbow() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary) { }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        SyncProgressionRewards();
         string animName = "Cast"; float delay = Owner.Character.CastAnimDelay;
         string sfxPath = "event:/sfx/characters/regent/regent_sovereign_blade";
         var attackCmd = DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay)
@@ -77,10 +83,15 @@ public class ApocalypseLongbow : MoreWeaponsCardBase
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.CalculatedBlock.Calculate(cardPlay.Target),
                 DynamicVars.CalculatedBlock.Props, cardPlay);
 
-        var target = cardPlay.Target!;
         int debuffCount = (int)DynamicVars["DebuffCount"].BaseValue;
-        for (int i = 0; i < debuffCount; i++)
-            await ApplyRandomDebuff(choiceContext, target);
+        foreach (var target in GetSurvivingAttackTargets(attackCmd))
+        {
+            if (WeaponRewardRuntime.Has(this, 2) && !target.HasPower<LifeLockPower>())
+                await PowerCmd.Apply<LifeLockPower>(choiceContext, target,
+                    DynamicVars["LifeLockPower"].BaseValue, Owner.Creature, this);
+            for (int i = 0; i < debuffCount && target.IsAlive; i++)
+                await ApplyRandomDebuff(choiceContext, target);
+        }
     }
 
     private async Task ApplyRandomDebuff(PlayerChoiceContext choiceContext, Creature target)
@@ -99,8 +110,10 @@ public class ApocalypseLongbow : MoreWeaponsCardBase
 
     protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(4); }
 
-    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; _totalForged += amount; CurrentDamage = DynamicVars.Damage.BaseValue; UpdateDebuffCount(); }
-    private void UpdateDebuffCount() { DynamicVars["DebuffCount"].BaseValue = Math.Max(1, 1 + (int)(_totalForged / 15)); }
+    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; _totalForged += amount; CurrentDamage = DynamicVars.Damage.BaseValue - 4m * CurrentUpgradeLevel; UpdateDebuffCount(); }
+    private void UpdateDebuffCount() => DynamicVars["DebuffCount"].BaseValue =
+        Math.Max(1, 1 + (int)(_totalForged / 15)) + (WeaponRewardRuntime.Has(this, 1) ? 1 : 0);
+    public void SyncProgressionRewards() { if (IsMutable) UpdateDebuffCount(); }
     protected override void AfterDowngraded() { base.AfterDowngraded(); DynamicVars.Damage.BaseValue = CurrentDamage; }
     protected override void AfterCloned() { base.AfterCloned(); CreatedThroughForge = false; }
 
@@ -112,19 +125,15 @@ public class ApocalypseLongbow : MoreWeaponsCardBase
 
     public override Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
     {
-        if (card != this) return Task.CompletedTask;
-        if (oldPileType == PileType.None || oldPileType == PileType.Exhaust)
-        {
-            if (_vfx == null)
-            {
-                _vfx = EnsureWeaponVfx("ApocalypseLongbow.tscn");
-            }
-        }
-        if (card.Pile?.Type == PileType.Exhaust)
+        if (card != this || IsDupe) return Task.CompletedTask;
+        SyncProgressionRewards();
+        if (Pile?.IsCombatPile != true || Pile.Type == PileType.Exhaust)
         {
             RemoveWeaponVfx();
             _vfx = null;
         }
+        else
+            _vfx = EnsureWeaponVfx("orbit/ApocalypseLongbow.tscn");
         return Task.CompletedTask;
     }
 }
