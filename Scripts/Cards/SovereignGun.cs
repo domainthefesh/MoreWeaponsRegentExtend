@@ -44,7 +44,8 @@ public class SovereignGun : MoreWeaponsCardBase
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
         NUpdateCardVfx.Play(this, Owner.Creature);
-        await PowerCmd.Apply<KingGunPower>(choiceContext, Owner.Creature, 5m, Owner.Creature, this);
+        var gun = await PowerCmd.Apply<KingGunPower>(choiceContext, Owner.Creature, 5m, Owner.Creature, this);
+        gun?.CaptureWeaponEnchantments(this);
         await GainParryBlock(cardPlay);
     }
 

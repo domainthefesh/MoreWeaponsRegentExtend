@@ -88,8 +88,8 @@ public class SovereignCrystalBlade : MoreWeaponsCardBase
         }
     }
 
-    protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(2); }
-    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; CurrentDamage = DynamicVars.Damage.BaseValue - 2m * CurrentUpgradeLevel; }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; CurrentDamage = DynamicVars.Damage.BaseValue; }
     public void SetRepeats(decimal amount)
     {
         DynamicVars.Repeat.BaseValue = amount;

@@ -26,7 +26,6 @@ public sealed class SeaCalmingStaff : ForgeableWeaponCardBase
     private StaffCombatStance _stance;
     private int _stanceSwitches;
 
-    public override int MaxUpgradeLevel => 0;
     public StaffCombatStance Stance => _stance;
     public decimal StanceDamageMultiplier => _stance switch
     {
@@ -70,7 +69,13 @@ public sealed class SeaCalmingStaff : ForgeableWeaponCardBase
         DynamicVars.Damage.BaseValue = (BaseDamage + ForgedAmount) * StanceDamageMultiplier;
         DynamicVars["Stance"].BaseValue = (int)_stance;
         DynamicVars["Hits"].BaseValue = StanceHitCount;
-        EnergyCost.SetCustomBaseCost(StanceEnergyCost);
+        EnergyCost.SetCustomBaseCost(Math.Max(0, StanceEnergyCost - (IsUpgraded ? 1 : 0)));
+    }
+
+    protected override void OnUpgrade()
+    {
+        EnergyCost.UpgradeBy(-1);
+        RefreshStance();
     }
 
     protected override void OnForgeAmountChanged() => RefreshStance();

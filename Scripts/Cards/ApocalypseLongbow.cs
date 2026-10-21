@@ -108,9 +108,9 @@ public class ApocalypseLongbow : MoreWeaponsCardBase
         }
     }
 
-    protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(4); }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 
-    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; _totalForged += amount; CurrentDamage = DynamicVars.Damage.BaseValue - 4m * CurrentUpgradeLevel; UpdateDebuffCount(); }
+    public void AddDamage(decimal amount) { DynamicVars.Damage.BaseValue += amount; _totalForged += amount; CurrentDamage = DynamicVars.Damage.BaseValue; UpdateDebuffCount(); }
     private void UpdateDebuffCount() => DynamicVars["DebuffCount"].BaseValue =
         Math.Max(1, 1 + (int)(_totalForged / 15)) + (WeaponRewardRuntime.Has(this, 1) ? 1 : 0);
     public void SyncProgressionRewards() { if (IsMutable) UpdateDebuffCount(); }

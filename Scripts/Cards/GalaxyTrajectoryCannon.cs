@@ -28,7 +28,7 @@ public sealed class GalaxyTrajectoryCannon : ForgeableWeaponCardBase
 
     public bool IsHot => IsMutable && ChargeLink.IsHot;
 
-    public override int MaxUpgradeLevel => 0;
+
     public override TargetType TargetType => TargetType.AllEnemies;
     protected override decimal ForgeDamageMultiplier => 10m;
     protected override bool IsPlayable => IsHot;

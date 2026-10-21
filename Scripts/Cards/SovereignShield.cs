@@ -93,9 +93,9 @@ public class SovereignShield : MoreWeaponsCardBase
         await GainParryBlock(cardPlay);
     }
 
-    protected override void OnUpgrade() { DynamicVars.Block.UpgradeValueBy(3); }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 
-    public void AddDamage(decimal amount) { DynamicVars.Block.BaseValue += amount; CurrentBlock = DynamicVars.Block.BaseValue - 3m * CurrentUpgradeLevel; SyncProgressionRewards(); }
+    public void AddDamage(decimal amount) { DynamicVars.Block.BaseValue += amount; CurrentBlock = DynamicVars.Block.BaseValue; SyncProgressionRewards(); }
 
     public void SyncProgressionRewards()
     {

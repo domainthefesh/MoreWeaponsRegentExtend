@@ -49,6 +49,8 @@ public abstract class ForgeableWeaponCardBase : MoreWeaponsCardBase
     {
     }
 
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+
     public override Task AfterCardChangedPiles(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
     {
         if (card != this || IsDupe)

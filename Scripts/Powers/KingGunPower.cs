@@ -18,12 +18,49 @@ using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using MoreWeaponsRegentExtend.Scripts.Cards;
 using MoreWeaponsRegentExtend.Scripts.Progression;
+using MoreWeaponsRegentExtend.Scripts.Enchantments;
+using MegaCrit.Sts2.Core.Saves.Runs;
 
 namespace MoreWeaponsRegentExtend.Scripts.Powers;
 
 [RegisterPower]
 public sealed class KingGunPower : ModPowerTemplate
 {
+    [SavedProperty] public bool HasFortuneEnchantment { get; set; }
+    [SavedProperty] public bool HasResentmentEnchantment { get; set; }
+    [SavedProperty] public int FortuneDamagePercent { get; set; }
+    private Creature? _shotTarget;
+
+    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
+    {
+        if (cardSource != null)
+            CaptureWeaponEnchantments(cardSource);
+        return Task.CompletedTask;
+    }
+
+    public void CaptureWeaponEnchantments(CardModel card)
+    {
+        var effects = WeaponTaskEnchantments.GetGunShotEffects(card);
+        HasFortuneEnchantment |= effects.HasFortune;
+        HasResentmentEnchantment |= effects.HasResentment;
+        if (effects.HasFortune)
+            FortuneDamagePercent = effects.FortuneDamagePercent;
+    }
+
+    public override Task AfterPlayerTurnStartEarly(PlayerChoiceContext context, Player player)
+    {
+        if (player == Owner.Player && HasFortuneEnchantment)
+            FortuneDamagePercent = WeaponTaskEnchantments.RollFortune(player);
+        return Task.CompletedTask;
+    }
+
+    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props,
+        Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
+        => _shotTarget != null && target == _shotTarget && dealer == Owner && cardSource == null && props.IsPoweredAttack()
+            ? WeaponSpecialization.GetDamageMultiplier(Owner.Player!, WeaponKind.SovereignGun) *
+                WeaponTaskEnchantments.GetGunShotMultiplier(HasFortuneEnchantment, FortuneDamagePercent, HasResentmentEnchantment)
+            : 1m;
+
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -37,6 +74,13 @@ public sealed class KingGunPower : ModPowerTemplate
                 WeaponProgression.HasReward(player, WeaponKind.SovereignGun, 2));
             description.Add("JadeBonus", IsMutable && Owner?.Player is { } jadePlayer &&
                 WeaponProgression.HasReward(jadePlayer, WeaponKind.SovereignGun, 3));
+            description.Add("Heavy", IsMutable && Owner?.Player is { } heavyPlayer &&
+                WeaponProgression.HasReward(heavyPlayer, WeaponKind.SovereignGun, 5));
+            description.Add("Light", IsMutable && Owner?.Player is { } lightPlayer &&
+                WeaponProgression.HasReward(lightPlayer, WeaponKind.SovereignGun, 6));
+            description.Add("Fortune", HasFortuneEnchantment);
+            description.Add("FortunePercent", FortuneDamagePercent);
+            description.Add("Resentment", HasResentmentEnchantment);
             return description;
         }
     }
@@ -121,12 +165,17 @@ public sealed class KingGunPower : ModPowerTemplate
             var target = player.RunState.Rng.CombatCardSelection.NextItem(enemies);
             if (target != null)
             {
-                await CreatureCmd.Damage(choiceContext, target, totalDamage,
-                    ValueProp.Move, player.Creature);
-                if (card is Bullet && target.IsAlive &&
-                    WeaponProgression.HasReward(player, WeaponKind.SovereignGun, 2))
+                try
+                {
+                    _shotTarget = target;
                     await CreatureCmd.Damage(choiceContext, target, totalDamage,
                         ValueProp.Move, player.Creature);
+                    if (card is Bullet && target.IsAlive &&
+                        WeaponProgression.HasReward(player, WeaponKind.SovereignGun, 2))
+                        await CreatureCmd.Damage(choiceContext, target, totalDamage,
+                            ValueProp.Move, player.Creature);
+                }
+                finally { _shotTarget = null; }
             }
         }
     }

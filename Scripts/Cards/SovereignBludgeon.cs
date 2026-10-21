@@ -109,7 +109,7 @@ public class SovereignBludgeon : MoreWeaponsCardBase
                 DynamicVars.CalculatedBlock.Props, cardPlay);
     }
 
-    protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(10); }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
     public void SyncProgressionRewards()
     {
         if (!IsMutable) return;
@@ -119,14 +119,14 @@ public class SovereignBludgeon : MoreWeaponsCardBase
             DynamicVars.Damage.BaseValue += bonus - _progressionDamageBonus;
             _progressionDamageBonus = bonus;
         }
-        CurrentDamage = DynamicVars.Damage.BaseValue - 10m * CurrentUpgradeLevel;
+        CurrentDamage = DynamicVars.Damage.BaseValue;
     }
     public void AddDamage(decimal amount)
     {
         AssertMutable();
         DynamicVars.Damage.BaseValue += amount;
         _totalForged += amount;
-        CurrentDamage = DynamicVars.Damage.BaseValue - 10m * CurrentUpgradeLevel;
+        CurrentDamage = DynamicVars.Damage.BaseValue;
         SyncPressureThreshold(PressureThreshold);
         SyncProgressionRewards();
     }

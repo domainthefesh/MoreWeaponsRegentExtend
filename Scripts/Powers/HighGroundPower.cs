@@ -30,10 +30,16 @@ public sealed class HighGroundPower : ModPowerTemplate
     private decimal DamageAdjustment => IsMutable && Owner?.Player is { } player &&
         WeaponProgression.HasReward(player, WeaponKind.SovereignWings, 2) ? 75m : 50m;
 
+    private decimal DamageIncrease => IsMutable && Owner?.Player is { } player
+        ? WeaponProgression.HasReward(player, WeaponKind.SovereignWings, 5) ? DamageAdjustment + 25m
+            : WeaponProgression.HasReward(player, WeaponKind.SovereignWings, 6) ? DamageAdjustment * 0.7m
+            : DamageAdjustment
+        : DamageAdjustment;
+
     public void SyncProgressionRewards()
     {
         DynamicVars["DamageDecrease"].BaseValue = DamageAdjustment;
-        DynamicVars["DamageIncrease"].BaseValue = DamageAdjustment;
+        DynamicVars["DamageIncrease"].BaseValue = DamageIncrease;
     }
 
     public override LocString Description
@@ -42,7 +48,7 @@ public sealed class HighGroundPower : ModPowerTemplate
         {
             var description = base.Description;
             description.Add("DamageDecrease", DamageAdjustment);
-            description.Add("DamageIncrease", DamageAdjustment);
+            description.Add("DamageIncrease", DamageIncrease);
             return description;
         }
     }
@@ -60,7 +66,7 @@ public sealed class HighGroundPower : ModPowerTemplate
         if (target == Owner)
             multiplier *= 1m - DamageAdjustment / 100m;
         if (dealer == Owner)
-            multiplier *= 1m + DamageAdjustment / 100m;
+            multiplier *= 1m + DamageIncrease / 100m;
         return multiplier;
     }
 

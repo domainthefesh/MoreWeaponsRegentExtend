@@ -1,18 +1,18 @@
 {
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.title": "碎裂",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.description": "消耗。将水晶小刀加入手牌，数量见卡牌。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_SHATTER.description": "将3张[gold]水晶小刀[/gold]加入手牌；淬炼后的数量见卡牌。\n小刀具有[gold]保留[/gold]和[gold]消耗[/gold]。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.title": "天启",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.description": "给予以下七种负面效果中的一种：易伤2、虚弱2、中毒5、灾厄10、消亡3、失衡、紧勒。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_APOCALYPSE.description": "每次随机给予一种：\n[gold]易伤[/gold]2、[gold]虚弱[/gold]2、[gold]中毒[/gold]5、[gold]灾厄[/gold]10、[gold]消亡[/gold]3、[gold]失衡[/gold]1、[gold]紧勒[/gold]1。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.title": "晶态",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.description": "当受到超出格挡的伤害时，消耗。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_CRYSTALLINE.description": "下次受到突破[gold]格挡[/gold]的伤害时，[gold]消耗[/gold]一张君王之盾，并失去[gold]晶态[/gold]。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.title": "架势",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.description": "打出后依次切换：轻挥→横扫→重劈→轻挥。\n轻挥：费用减少1，伤害为80%。\n横扫：攻击所有敌人；[gold]追踪之刃[/gold]生效时改为攻击两次。\n重劈：费用增加1，伤害为120%；伤害突破格挡时使目标眩晕2回合。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_STANCE.description": "初始为[gold]轻挥[/gold]，打出后依次切换：轻挥→横扫→重劈→轻挥。\n[gold]轻挥[/gold]：费用−1，伤害为80%。\n[gold]横扫[/gold]：攻击所有敌人；[gold]追踪之刃[/gold]生效时攻击两次。\n[gold]重劈[/gold]：费用+1，伤害为120%；突破[gold]格挡[/gold]时使目标[gold]眩晕[/gold]2回合。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.title": "热寂灭",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.description": "无法以任何方式打出。\n生成时加入绑定此炮的充能。将其全部打出后转为[gold]热启动[/gold]。\n所需数量见卡牌；手牌已满时，充能进入弃牌堆。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HEAT_DEATH.description": "无法以任何方式打出。\n生成时将绑定此炮的[gold]充能[/gold]加入手牌。全部打出后转为[gold]热启动[/gold]。\n所需数量见卡牌；手牌满时，[gold]充能[/gold]进入弃牌堆。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.title": "热启动",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.description": "充能完成，可以打出。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_HOT_START.description": "[gold]充能[/gold]完成，可以打出。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.title": "赐福",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.description": "打出时随机获得以下效果之一：\n力量2、敏捷2、明耀2、再生3、活力6、好奇1、壁垒1。",
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_BLESSING.description": "每次随机获得一种：\n[gold]力量[/gold]2、[gold]敏捷[/gold]2、[gold]明耀[/gold]2、[gold]再生[/gold]3、[gold]活力[/gold]6、[gold]好奇[/gold]1、[gold]壁垒[/gold]1。",
   "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.title": "武痴",
-  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.description": "生成时消耗本场战斗所有基础攻击牌，并获得[gold]武痴[/gold]。"
+  "MORE_WEAPONS_REGENT_EXTEND_KEYWORD_MARTIAL_FANATIC.description": "生成时[gold]消耗[/gold]本场战斗所有基础攻击牌，并获得[gold]武痴[/gold]。"
 }

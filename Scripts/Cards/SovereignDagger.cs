@@ -23,7 +23,13 @@ public sealed class SovereignDagger : ForgeableWeaponCardBase
     }
 
     public void SyncProgressionRewards() => DynamicVars["Gold"].BaseValue =
-        WeaponRewardRuntime.Has(this, 1) ? 45m : 15m;
+        (IsUpgraded ? 25m : 15m) * (WeaponRewardRuntime.Has(this, 1) ? 3m : 1m);
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars["Gold"].UpgradeValueBy(10m);
+        SyncProgressionRewards();
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

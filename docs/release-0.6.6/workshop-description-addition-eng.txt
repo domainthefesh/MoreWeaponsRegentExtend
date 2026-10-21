@@ -1,0 +1,19 @@
+[h2]Weapon Tempering: Grow Your Arsenal as You Climb[/h2]
+
+Open the Royal Task Graph from the Weapon Tempering button near the map icon in the top-right corner. Defeat the Act I and Act II bosses to claim Tempering I and Tempering II respectively, unlocking upgrades unique to each weapon. The 16 mod weapons and the original Sovereign Blade offer 34 weapon-specific main-path rewards in total.
+
+The Royal Task Graph now has 9 nodes. Alongside the two main-path tiers, independent side tasks make card upgrades, elite challenges, event exploration, and different cost strategies part of your weapon's growth:
+[list]
+[*][b]Jade Tempering[/b]: Win 5 elite combats to gain +4 base weapon attack damage.
+[*][b]Quenching[/b]: Upgrade cards 5 times to automatically upgrade weapons newly created by Forge afterward.
+[*][b]Specialization: Heavy / Light[/b]: After completing Act I, choose one for each weapon. Heavy adds 1 base cost and +50% final damage. Light reduces base cost by 1, to a minimum of 0, and reduces final damage by 30%; Sovereign Dagger is played one additional time. For Royal Rifle, this modifies shot damage. For Sovereign Wings, Heavy adds 25 percentage points to High Ground's damage bonus, while Light reduces its existing damage bonus by 30%; damage reduction is unchanged.
+[*][b]Watercut[/b]: Win 3 elite combats in 4 turns or fewer each to obtain Fencing Manual. Weapons newly created by Forge afterward gain the Perfect Fit Enchantment.
+[*][b]Inner Balance[/b]: Hold Juzu Bracelet or complete 5 ordinary map events. Weapons newly created by Forge afterward gain the Strong Fortune Enchantment, varying damage from −10% to +50% each player turn and keeping it unchanged within the same turn.
+[*][b]Restless Spirit[/b]: Win 3 combats at question-mark nodes or 18 combats in total. Weapons newly created by Forge afterward gain the Resentment Enchantment: damage +100%. After playing the weapon, damage taken is doubled for the rest of this combat. This does not stack.
+[/list]
+
+Side tasks do not require main-path rewards to be claimed first. Perfect Fit, Strong Fortune, and Resentment can coexist with existing Enchantments. Generation rewards apply only to primary weapons newly created by Forge after claiming them, without retroactively modifying existing cards. Forging the same card again does not repeatedly upgrade or enchant it.
+
+Weapon upgrade effects have also been completed: Royal Knuckles gains +6 base damage, Sovereign Dagger gains +10 Gold on a kill, and the remaining 2-cost and 3-cost Sovereign weapons, plus Sea Calming Staff, gain −1 base cost.
+
+The Royal Task Graph supports weapon switching, panning, zooming, and recentering. Each task has a distinct border color; click a node to view its requirements, progress, and reward. Fixed-weapon choices and Let Fate Decide strengthen the weapon selected for this run. Master of All Arms lets each weapon claim rewards and choose its specialization separately, while sharing task-condition counts for the run. Rewards are claimed outside combat. Progress is saved with your run and resets when starting a new one.

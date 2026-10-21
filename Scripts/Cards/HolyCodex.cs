@@ -13,7 +13,7 @@ namespace MoreWeaponsRegentExtend.Scripts.Cards;
 
 public sealed class HolyCodex : ForgeableWeaponCardBase
 {
-    public override int MaxUpgradeLevel => 0;
+
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Retain, MyKeywords.Blessing];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromKeyword(MyKeywords.Blessing)];
     protected override IEnumerable<DynamicVar> CanonicalVars => AttackVars(9m,

@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using MegaCrit.Sts2.Core.Multiplayer.Transport;
 using MegaCrit.Sts2.Core.Runs;
@@ -35,17 +36,17 @@ public static class WeaponClaimNetwork
 
     public static bool RequestClaim(Player player, WeaponKind weapon, int node)
     {
-        if (!Enum.IsDefined(weapon) || node is not (1 or 2 or 3) ||
+        if (!Enum.IsDefined(weapon) || node is < 1 or > WeaponProgression.LastNode ||
             CombatManager.Instance.IsInProgress ||
             WeaponProgression.GetNodeStatus(player, weapon, node) != WeaponTaskStatus.Claimable)
             return false;
 
         if (TestMode.IsOn || player.RunState.Players.Count == 1)
         {
-            var claimed = WeaponProgression.TryClaim(player, weapon, node);
-            if (claimed)
-                _ = SaveClaim(player.RunState);
-            return claimed;
+            // TryClaimAsync reserves the bit before its first await. Save only
+            // after the optional relic command completes, including its hooks.
+            TaskHelper.RunSafely(ClaimAndSave(player, weapon, node));
+            return true;
         }
 
         var manager = RunManager.Instance;
@@ -58,7 +59,7 @@ public static class WeaponClaimNetwork
 
     public static byte[] Serialize(ClaimRequest request)
     {
-        if (!Enum.IsDefined(request.Weapon) || request.Node is not (1 or 2 or 3))
+        if (!Enum.IsDefined(request.Weapon) || request.Node is < 1 or > WeaponProgression.LastNode)
             throw new InvalidDataException("Invalid weapon reward claim.");
         return [(byte)request.Weapon, (byte)request.Node];
     }
@@ -68,7 +69,7 @@ public static class WeaponClaimNetwork
         if (payload.Length != 2)
             throw new InvalidDataException("Invalid weapon reward claim length.");
         var request = new ClaimRequest((WeaponKind)payload[0], payload[1]);
-        if (!Enum.IsDefined(request.Weapon) || request.Node is not (1 or 2 or 3))
+        if (!Enum.IsDefined(request.Weapon) || request.Node is < 1 or > WeaponProgression.LastNode)
             throw new InvalidDataException("Invalid weapon reward claim.");
         return request;
     }
@@ -79,18 +80,34 @@ public static class WeaponClaimNetwork
         if (run == null)
             return;
 
-        if (ApplyClaimFromSender(run, context.SenderNetId, context.Message))
+        if (await ApplyClaimFromSenderAsync(run, context.SenderNetId, context.Message))
             await SaveClaim(run);
     }
 
     /// <summary>The receiving path resolves the transport identity, never a payload-supplied owner.</summary>
     public static bool ApplyClaimFromSender(IRunState run, ulong senderNetId, ClaimRequest request)
     {
-        if (!Enum.IsDefined(request.Weapon) || request.Node is not (1 or 2 or 3))
+        if (!Enum.IsDefined(request.Weapon) || request.Node is < 1 or > WeaponProgression.LastNode)
             return false;
         var player = run.Players.FirstOrDefault(player => player.NetId == senderNetId);
         return player != null && WeaponProgression.TryClaim(player, request.Weapon, request.Node);
     }
+
+    public static async Task<bool> ApplyClaimFromSenderAsync(IRunState run, ulong senderNetId, ClaimRequest request)
+    {
+        if (!Enum.IsDefined(request.Weapon) || request.Node is < 1 or > WeaponProgression.LastNode)
+            return false;
+        var player = run.Players.FirstOrDefault(player => player.NetId == senderNetId);
+        return player != null && await WeaponProgression.TryClaimAsync(player, request.Weapon, request.Node);
+    }
+
+    private static async Task ClaimAndSave(Player player, WeaponKind weapon, int node)
+    {
+        if (await WeaponProgression.TryClaimAsync(player, weapon, node))
+            await SaveClaim(player.RunState);
+    }
+
+    public static Task SaveProgress(IRunState run) => SaveClaim(run);
 
     private static async Task SaveClaim(IRunState run)
     {

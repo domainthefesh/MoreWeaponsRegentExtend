@@ -88,13 +88,13 @@ public class SovereignSpear : MoreWeaponsCardBase
                 DynamicVars.CalculatedBlock.Props, cardPlay);
     }
 
-    protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(3); }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 
     public void AddDamage(decimal amount)
     {
         SyncProgressionRewards();
         DynamicVars.Damage.BaseValue += amount + DynamicVars["ForgeBonus"].BaseValue;
-        CurrentDamage = DynamicVars.Damage.BaseValue - 3m * CurrentUpgradeLevel;
+        CurrentDamage = DynamicVars.Damage.BaseValue;
     }
 
     public void SyncProgressionRewards()

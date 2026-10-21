@@ -16,6 +16,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using MoreWeaponsRegentExtend.Scripts.Cards;
 using MoreWeaponsRegentExtend.Scripts.Powers;
+using MoreWeaponsRegentExtend.Scripts.Progression;
 using STS2RitsuLib.Patching.Models;
 
 namespace MoreWeaponsRegentExtend.Scripts;
@@ -178,6 +179,7 @@ public class ForgeRandomizePatch : IPatchMethod
         var combatState = player.Creature.CombatState!;
         var card = combatState.CreateCard<TCard>(player);
         SetCreatedThroughForge(card, true);
+        await WeaponForgeRewards.ApplyOnCreation(card);
 
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, player);
 

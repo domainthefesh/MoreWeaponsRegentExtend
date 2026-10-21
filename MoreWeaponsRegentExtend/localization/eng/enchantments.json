@@ -1,0 +1,11 @@
+{
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_STRONG_FORTUNE.title": "Strong Fortune",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_STRONG_FORTUNE.description": "This card's damage varies from −10% to +50% each turn.\nThis turn: {DamagePercent}%.",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_STRONG_FORTUNE.extraCardText": "[gold]Strong Fortune[/gold] ({DamagePercent}%).",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_RESENTMENT.title": "Resentment",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_RESENTMENT.description": "This card deals 100% more damage.\nAfter playing it, gain [gold]Curse[/gold]: take double damage this combat. Does not stack.",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_RESENTMENT.extraCardText": "[gold]Resentment[/gold].",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_TEMPERED_ENCHANTMENTS.title": "Tempered Enchantments",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_TEMPERED_ENCHANTMENTS.description": "Retain all enchantments granted to this card at the same time.",
+  "MORE_WEAPONS_REGENT_EXTEND_ENCHANTMENT_TEMPERED_ENCHANTMENTS.extraCardText": "{CombinedText}"
+}

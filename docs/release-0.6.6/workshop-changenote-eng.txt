@@ -1,0 +1,55 @@
+[h1]Side Tasks and Weapon Specialization Update | 0.6.6[/h1]
+
+This update brings together the changes from 0.6.5–0.6.6, adding six side-task nodes to Weapon Tempering, completing weapon upgrade effects, and improving the Royal Task Graph and card descriptions.
+
+[h2]New Side Tasks[/h2]
+[list]
+[*][b]Quenching[/b]: Claim after successfully upgrading cards 5 times during this run. Sovereign weapons created by Forge afterward are automatically upgraded when first generated.
+[*][b]Specialization: Heavy[/b]: Claim after completing Act I. Base weapon cost +1; final damage +50%.
+[*][b]Specialization: Light[/b]: Claim after completing Act I. Base weapon cost −1, minimum 0; final damage −30%. Sovereign Dagger is played one additional time.
+[*][b]Watercut[/b]: Claim after winning 3 elite combats in 4 turns or fewer each, including turn 4. Obtain Fencing Manual, and weapons created by Forge afterward gain the Perfect Fit Enchantment when first generated. No duplicate Fencing Manual is awarded if you already have it.
+[*][b]Inner Balance[/b]: Claim while holding Juzu Bracelet, or after completing 5 ordinary map events. Weapons created by Forge afterward gain the Strong Fortune Enchantment: damage varies from −10% to +50%, rerolled each player turn and unchanged within that turn. Neow's event and the weapon-selection menus do not count toward the event total.
+[*][b]Restless Spirit[/b]: Claim after winning 3 combats at question-mark nodes, or 18 combats in total. Weapons created by Forge afterward gain the Resentment Enchantment: damage +100%. After playing the weapon, gain Curse, doubling damage taken for the rest of this combat. Repeated applications do not stack.
+[/list]
+
+Choose [b]either Heavy or Light separately for each weapon[/b]. Master of All Arms allows different weapons to choose different specializations. Task conditions are counted during this run, and rewards are claimed separately for each weapon.
+
+All side tasks are independent of the main path; neither Tempering I nor Tempering II needs to be claimed first. Jade Tempering remains available. The Royal Task Graph now has 9 nodes: 2 main-path nodes and 7 side-task nodes.
+
+[h2]Specialization and Enchantment Rules[/h2]
+[list]
+[*]Heavy and Light modify final damage after Forge, Strength, Vulnerable, and other modifiers. Cost adjustments apply to base cost; the original game's temporary cost changes still work normally.
+[*]Royal Rifle's specialization modifies King's Gun shot damage, including the additional damage triggered by Exhausting a Bullet.
+[*]For Sovereign Wings, Heavy adds 25 percentage points to High Ground's damage bonus. Light reduces its existing damage bonus by 30%, without changing its damage reduction.
+[*]Perfect Fit, Strong Fortune, and Resentment can coexist with existing Enchantments, with each description shown separately.
+[*]Generation rewards take effect after being claimed and cover all 16 mod primary weapons and the original Sovereign Blade. Existing weapons receive no retroactive upgrade or Enchantment. Forging the same card again does not repeatedly upgrade or enchant it. Crystal Daggers, Bullets, and Charges are not primary weapons.
+[*]Task progress and rewards are saved with this run and reset when starting a new run.
+[/list]
+
+[h2]Completed Weapon Upgrade Effects[/h2]
+[list]
+[*][b]Royal Knuckles[/b]: Upgrading adds +6 base damage.
+[*][b]Sovereign Dagger[/b]: Upgrading adds +10 Gold on a kill, raising the base reward from 15→25, or to 75 when combined with Tempering I.
+[*][b]The remaining 2-cost and 3-cost Sovereign weapons, plus Sea Calming Staff[/b]: Upgrading reduces base cost by 1, replacing their previous upgrade effects. The Staff's three Stances cost 0/1/2 after upgrading.
+[*]Galactic Trajectory Cannon, Codex of Light, Royal Knuckles, and Sea Calming Staff can all be upgraded normally. The original Sovereign Blade retains its own upgrade effect.
+[/list]
+
+[h2]Royal Task Graph Improvements[/h2]
+[list]
+[*]The main path is arranged vertically in the center with straight connections. Side tasks are positioned independently, with Heavy and Light on opposite sides.
+[*]Node borders distinguish tasks by color: gold for the main path, gray for Heavy, white for Light, blue for Watercut, pink for Inner Balance, purple for Restless Spirit, red for Quenching, and cyan for Jade Tempering.
+[*]Fixed all right-side nodes being hidden when opening the details panel. Nodes exposed by panning or zooming now remain visible and clickable.
+[*]Fixed long English text on the mutually exclusive task-status button widening the details panel. The full reason remains available in the status description and tooltip.
+[*]Task requirements and rewards now support yellow keyword highlighting, while retaining the original game's font and black outlines.
+[/list]
+
+[h2]Card and Tooltip Text Refinements[/h2]
+[list]
+[*]Reviewed all 20 mod cards and refined 13 card descriptions, along with task, keyword, Power, and Enchantment tooltips. Chinese and English were updated to match.
+[*]Royal Rifle now clearly states that it grants 5 King's Gun. King's Gun can Exhaust any card in your hand, rather than only Attack cards.
+[*]The Sacred Bow's Fate Lock description clarifies that it is applied after damage and before Apocalypse. Sovereign Wings' Tempering II description clarifies that 75% is the base damage reduction and damage bonus before specialization adjustments.
+[*]Corrected the Shatter tooltip: Crystal Daggers generated by Crystal Blade have Retain and Exhaust, while Crystal Blade itself goes to the discard pile. This only corrects the description; its behavior is unchanged.
+[*]Shortened descriptions for Heavy Pressure, Stance, Charge, and other mechanics, and added missing keyword colors.
+[/list]
+
+[b]STS2-RitsuLib is still required. Thanks for playing! Feel free to share your weapon builds and feedback.[/b]

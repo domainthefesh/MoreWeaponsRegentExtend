@@ -9,28 +9,43 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Capstones;
 
 namespace MoreWeaponsRegentExtend.Scripts.Progression.UI;
 
-/// <summary>The royal task graph, with an independent side task and details opened on demand.</summary>
+/// <summary>The royal task graph, with a central mainline and independent side tasks.</summary>
 public partial class WeaponProgressionScreen : Control, ICapstoneScreen
 {
     public const string ScenePath = "res://MoreWeaponsRegentExtend/scenes/progression/weapon_progression.tscn";
     private static readonly Vector2 DesignSize = new(1600, 900);
+    private const int NodeCount = 9;
+    // The mainline rises through the middle; specialization choices occupy opposite sides.
+    // Side nodes remain disconnected, with space reserved for later branches.
+    private static readonly Vector2[] NodeCenters =
+    [
+        new(628, 435), new(628, 245), new(315, 615),
+        new(315, 435), new(315, 245), new(941, 245),
+        new(941, 435), new(628, 105), new(628, 615)
+    ];
     private static readonly Color Gold = new("e7c44e"), Paper = new("eee5ce"), Ink = new("17272d");
     private static readonly Color Muted = new("9aafab"), Cyan = new("9bc8c7"), Outline = new("111d22");
+    private static readonly Color[] NodeColors =
+    [
+        Gold, Gold, new("78c5c0"), new("de8278"), new("a7adae"),
+        new("f1efdf"), new("6faee7"), new("e2a2c3"), new("a18cdb")
+    ];
     private ProgressionUiData _data = null!;
     private Control _frame = null!;
     private Panel _graph = null!, _detail = null!;
     private ScrollContainer _weaponScroll = null!;
     private QuestPath _path = null!;
-    private Label _weaponName = null!, _detailWeapon = null!, _reward = null!, _status = null!, _step = null!, _task = null!;
+    private Label _weaponName = null!, _detailWeapon = null!, _status = null!, _step = null!;
+    private RichTextLabel _reward = null!, _task = null!;
     private TextureRect _weaponArt = null!;
     private Button _claim = null!, _close = null!, _detailClose = null!;
     private Texture2D? _nativeBar, _nativeSlot;
     private readonly Dictionary<WeaponKind, Button> _weaponButtons = new();
     private readonly Dictionary<WeaponKind, Label> _weaponNames = new();
-    private readonly Button[] _nodes = new Button[3];
-    private readonly Panel[] _nodePlates = new Panel[3];
-    private readonly Label[] _nodeCaptions = new Label[3];
-    private readonly Control[] _nodeTicks = new Control[3];
+    private readonly Button[] _nodes = new Button[NodeCount];
+    private readonly Panel[] _nodePlates = new Panel[NodeCount];
+    private readonly Label[] _nodeCaptions = new Label[NodeCount];
+    private readonly Control[] _nodeTicks = new Control[NodeCount];
     private readonly TextureRect[] _nodeArts = new TextureRect[2];
     private bool _blocking, _closing, _closed, _dragging;
     private Vector2 _dragOrigin, _panOrigin;
@@ -43,9 +58,9 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
     public int ViewedNode { get; private set; }
     public NetScreenType ScreenType => NetScreenType.Compendium;
     public bool UseSharedBackstop => false;
-    public Control? DefaultFocusedControl => ViewedNode is >= 1 and <= 3 && _detail?.Visible == true
+    public Control? DefaultFocusedControl => ViewedNode is >= 1 and <= NodeCount && _detail?.Visible == true
         ? (_claim.Disabled ? _detailClose : _claim)
-        : _nodes.ElementAtOrDefault(Math.Clamp(_lastFocusedNode - 1, 0, 2)) ?? _close;
+        : _nodes.ElementAtOrDefault(Math.Clamp(_lastFocusedNode - 1, 0, NodeCount - 1)) ?? _close;
     public event Action? Closed;
 
     public void Configure(ProgressionUiData data)
@@ -148,7 +163,7 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
 
     public void SelectNode(int node)
     {
-        if (node is not (1 or 2 or 3)) throw new ArgumentOutOfRangeException(nameof(node));
+        if (node is < 1 or > NodeCount) throw new ArgumentOutOfRangeException(nameof(node));
         ViewedNode = _lastFocusedNode = node;
         Refresh();
         Callable.From(() =>
@@ -248,10 +263,11 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         _weaponName.ZIndex = 1;
         _path = new QuestPath { Name = "QuestPath", MouseFilter = MouseFilterEnum.Ignore };
         Place(_path, _graph, Vector2.Zero, new(1256, 710));
-        Vector2[] positions = [new(237, 293), new(615, 182), new(650, 437)];
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < NodeCount; i++)
         {
             var node = i + 1;
+            var mainline = i < 2;
+            var plateSize = mainline ? 94 : 80;
             var button = new Button
             {
                 Name = "TaskNode" + node, FocusMode = FocusModeEnum.All,
@@ -259,7 +275,7 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
             };
             foreach (var state in new[] { "normal", "hover", "pressed", "disabled", "focus" })
                 button.AddThemeStyleboxOverride(state, new StyleBoxEmpty());
-            Place(button, _path, positions[i], new(170, 154));
+            Place(button, _path, NodeCenters[i] - new Vector2(85, plateSize / 2f), new(170, mainline ? 154 : 126));
             button.Pressed += () => SelectNode(node);
             button.FocusEntered += Refresh;
             button.FocusExited += Refresh;
@@ -267,7 +283,7 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
             button.MouseExited += () => _nodePlates[node - 1].SelfModulate = Colors.White;
             _nodes[i] = button;
             var plate = new Panel { Name = "Plate", MouseFilter = MouseFilterEnum.Ignore };
-            Place(plate, button, new(38, 0), new(94, 94));
+            Place(plate, button, new((170 - plateSize) / 2f, 0), new(plateSize, plateSize));
             _nodePlates[i] = plate;
             if (i < 2)
             {
@@ -282,20 +298,20 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
             }
             else
             {
-                var jade = AddLabel(plate, "Jade", "◆", new(12, 13), new(70, 64), 47, Cyan, 3);
-                jade.HorizontalAlignment = HorizontalAlignment.Center;
-                jade.VerticalAlignment = VerticalAlignment.Center;
+                Place(new QuestEmblem { Name = "TaskEmblem", Node = node, MouseFilter = MouseFilterEnum.Ignore },
+                    plate, new(13, 13), new(54, 54));
             }
             var tick = new Panel { Name = "ClaimedMark", MouseFilter = MouseFilterEnum.Ignore };
             tick.AddThemeStyleboxOverride("panel", Box(new Color("54755a"), new Color("afc5a1"), 2, 16));
-            Place(tick, plate, new(73, 72), new(32, 32));
+            Place(tick, plate, new(plateSize - 21, plateSize - 22), new(32, 32));
             var check = AddLabel(tick, "Check", "✓", Vector2.Zero, new(32, 32), 23, Paper, 2);
             check.HorizontalAlignment = HorizontalAlignment.Center;
             check.VerticalAlignment = VerticalAlignment.Center;
             _nodeTicks[i] = tick;
             var caption = AddLabel(button, "TaskName" + node, ProgressionUiText.Get("STEP_" + node),
-                new(-23, 111), new(216, 43), 27, Paper);
-            caption.HorizontalAlignment = HorizontalAlignment.Center;
+                mainline ? new(139, 22) : new(-43, 88), mainline ? new(210, 43) : new(256, 38),
+                mainline ? 27 : 23, Paper);
+            caption.HorizontalAlignment = mainline ? HorizontalAlignment.Left : HorizontalAlignment.Center;
             _nodeCaptions[i] = caption;
         }
     }
@@ -319,6 +335,7 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         items.AddChild(header);
         _step = MakeLabel("Step", "", 27, Gold);
         _step.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+        _step.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         header.AddChild(_step);
         _detailClose = MakeButton("DetailClose", "×", 25);
         _detailClose.CustomMinimumSize = new Vector2(34, 34);
@@ -338,8 +355,7 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         _detailWeapon.HorizontalAlignment = HorizontalAlignment.Center;
         items.AddChild(_detailWeapon);
         items.AddChild(MakeLabel("TaskHeading", ProgressionUiText.Get("TASK"), 18, Cyan));
-        _task = MakeLabel("TaskRequirement", "", 21, Paper);
-        _task.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        _task = MakeRichLabel("TaskRequirement", 21);
         items.AddChild(_task);
         _status = MakeLabel("TaskProgress", "", 17, Muted);
         _status.AutowrapMode = TextServer.AutowrapMode.WordSmart;
@@ -355,12 +371,13 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         rewardItems.AddThemeConstantOverride("separation", 6);
         scroll.AddChild(rewardItems);
         rewardItems.AddChild(MakeLabel("RewardHeading", ProgressionUiText.Get("REWARD"), 18, Cyan));
-        _reward = MakeLabel("RewardDescription", "", 21, new Color("f1dfab"));
-        _reward.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        _reward = MakeRichLabel("RewardDescription", 21);
         _reward.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         rewardItems.AddChild(_reward);
         _claim = MakeButton("Claim", "", 24, true);
         _claim.CustomMinimumSize = new Vector2(0, 53);
+        _claim.ClipText = true;
+        _claim.TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis;
         items.AddChild(_claim);
         _claim.Pressed += () => ClaimSelected();
     }
@@ -392,13 +409,32 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
             weapons[i].FocusNeighborBottom = weapons[(i + 1) % weapons.Length].GetPath();
             weapons[i].FocusNeighborRight = _nodes[0].GetPath();
         }
-        _nodes[0].FocusNeighborRight = _nodes[1].GetPath();
-        _nodes[0].FocusNeighborBottom = _nodes[2].GetPath();
-        _nodes[1].FocusNeighborLeft = _nodes[0].GetPath();
-        _nodes[1].FocusNeighborBottom = _nodes[2].GetPath();
-        _nodes[2].FocusNeighborTop = _nodes[1].GetPath();
-        _nodes[2].FocusNeighborLeft = _nodes[0].GetPath();
-        _nodes[0].FocusNeighborLeft = weapons[0].GetPath();
+        for (var i = 0; i < NodeCount; i++)
+        {
+            _nodes[i].FocusNeighborLeft = NearestNode(i, Vector2.Left)?.GetPath() ?? weapons[0].GetPath();
+            _nodes[i].FocusNeighborRight = NearestNode(i, Vector2.Right)?.GetPath() ?? _close.GetPath();
+            _nodes[i].FocusNeighborTop = NearestNode(i, Vector2.Up)?.GetPath() ?? _close.GetPath();
+            _nodes[i].FocusNeighborBottom = NearestNode(i, Vector2.Down)?.GetPath() ?? _nodes[i].GetPath();
+        }
+    }
+
+    private Button? NearestNode(int current, Vector2 direction)
+    {
+        var closest = -1;
+        var best = float.PositiveInfinity;
+        for (var i = 0; i < NodeCount; i++)
+        {
+            if (i == current) continue;
+            var difference = NodeCenters[i] - NodeCenters[current];
+            var forward = difference.Dot(direction);
+            if (forward <= 1) continue;
+            var sideways = Mathf.Abs(difference.Cross(direction));
+            var score = forward + sideways * 3;
+            if (score >= best) continue;
+            best = score;
+            closest = i;
+        }
+        return closest >= 0 ? _nodes[closest] : null;
     }
 
     private void Refresh()
@@ -408,32 +444,38 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         _weaponName.Text = ProgressionUiText.WeaponName(ViewedWeapon);
         _weaponArt.Texture = texture;
         _detailWeapon.Text = _weaponName.Text;
-        _detail.Visible = ViewedNode is >= 1 and <= 3;
+        _detail.Visible = ViewedNode is >= 1 and <= NodeCount;
         if (_detail.Visible)
         {
             var status = _data.GetStatus(ViewedWeapon, ViewedNode);
             _step.Text = ProgressionUiText.Get("STEP_" + ViewedNode);
-            _task.Text = ProgressionUiText.Get(ViewedNode == 3 ? "TASK_3" : "BOSS_" + ViewedNode);
-            _reward.Text = ProgressionUiText.Get(ViewedNode == 3 ? "REWARD_SIDE" : $"REWARD.{ViewedWeapon}.{ViewedNode}");
-            _status.Text = ViewedNode == 3
-                ? string.Format(CultureInfo.InvariantCulture, ProgressionUiText.Get("TASK_PROGRESS3"), Math.Clamp(_data.GetEliteVictories(), 0, 5))
-                : !_data.IsEligible(ViewedWeapon) ? ProgressionUiText.Get("UNSELECTED")
+            _task.Text = ProgressionUiText.ToBbCode(ProgressionUiText.Get(ViewedNode > 2 ? "TASK_" + ViewedNode : "BOSS_" + ViewedNode));
+            _reward.Text = ProgressionUiText.ToBbCode(ProgressionUiText.RewardText(ViewedWeapon, ViewedNode));
+            _status.Text = !_data.IsEligible(ViewedWeapon) ? ProgressionUiText.Get("UNSELECTED")
                 : status == WeaponTaskStatus.Claimable && !_data.CanClaim() ? ProgressionUiText.Get("BATTLE_CLAIM_BLOCKED")
                 : status == WeaponTaskStatus.Locked && ViewedNode == 2 ? ProgressionUiText.Get("NEEDS_FIRST")
                 : StatusText(status);
-            if (ViewedNode == 3)
+            if (ViewedNode > 2)
             {
-                var restriction = !_data.IsEligible(ViewedWeapon) ? ProgressionUiText.Get("UNSELECTED")
-                    : status == WeaponTaskStatus.Claimable && !_data.CanClaim()
-                        ? ProgressionUiText.Get("BATTLE_CLAIM_BLOCKED") : string.Empty;
-                if (!string.IsNullOrEmpty(restriction)) _status.Text += "\n" + restriction;
+                var progress = _data.Progress(ViewedNode);
+                var progressText = string.Format(CultureInfo.InvariantCulture, ProgressionUiText.Get("TASK_PROGRESS"),
+                    Math.Clamp(progress.Current, 0, progress.Required), progress.Required);
+                if (ViewedNode is 8 or 9)
+                {
+                    var alternative = _data.AlternativeProgress(ViewedNode);
+                    progressText = string.Format(CultureInfo.InvariantCulture, ProgressionUiText.Get("TASK_PROGRESS_ALT" + ViewedNode),
+                        Math.Clamp(progress.Current, 0, progress.Required), progress.Required,
+                        Math.Clamp(alternative.Current, 0, alternative.Required), alternative.Required);
+                }
+                _status.Text = progressText + "\n" + _status.Text;
             }
             _claim.Text = status == WeaponTaskStatus.Claimable ? ProgressionUiText.Get("CLAIM") : StatusText(status);
+            _claim.TooltipText = _claim.Text;
             _claim.Disabled = status != WeaponTaskStatus.Claimable || !_data.CanClaim();
             SetDetailFocus(_detailClose, _claim.Disabled ? _detailClose : _claim);
             SetDetailFocus(_claim, _detailClose);
-            _weaponArt.Visible = ViewedNode != 3;
-            _detailWeapon.Visible = ViewedNode != 3;
+            _weaponArt.Visible = ViewedNode <= 2;
+            _detailWeapon.Visible = ViewedNode <= 2;
         }
         foreach (var (weapon, button) in _weaponButtons)
         {
@@ -442,12 +484,15 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
                 : Box(new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), 0, 5));
             _weaponNames[weapon].AddThemeColorOverride("font_color", weapon == ViewedWeapon ? new Color("f6da71") : Paper);
         }
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < NodeCount; i++)
         {
+            // Keep the graph intact while panning/zooming. The opaque detail panel
+            // covers only the pixels actually beneath it through normal draw order.
             var status = _data.GetStatus(ViewedWeapon, i + 1);
             var active = i + 1 == ViewedNode || _nodes[i].HasFocus();
-            var tint = active ? new Color("e6c77f") : status == WeaponTaskStatus.Claimed
-                ? new Color("92b995") : status == WeaponTaskStatus.Claimable ? new Color("c8c39c") : new Color("81958d");
+            var tint = active ? NodeColors[i].Lerp(Colors.White, 0.18f)
+                : status is WeaponTaskStatus.Claimed or WeaponTaskStatus.Claimable ? NodeColors[i]
+                : NodeColors[i].Lerp(Ink, 0.16f);
             _nodePlates[i].AddThemeStyleboxOverride("panel", NativeBox(_nativeSlot, tint, 0));
             _nodeCaptions[i].AddThemeColorOverride("font_color", active ? new Color("f5d77e") : Paper);
             _nodeTicks[i].Visible = status == WeaponTaskStatus.Claimed;
@@ -613,6 +658,24 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         return label;
     }
 
+    private static RichTextLabel MakeRichLabel(string name, int font)
+    {
+        var label = new RichTextLabel
+        {
+            Name = name, BbcodeEnabled = true, FitContent = true, ScrollActive = false,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore
+        };
+        label.AddThemeFontSizeOverride("normal_font_size", font);
+        label.AddThemeColorOverride("default_color", Paper);
+        label.AddThemeColorOverride("font_outline_color", Outline);
+        label.AddThemeColorOverride("font_shadow_color", new Color(0, 0, 0, 0.75f));
+        label.AddThemeConstantOverride("outline_size", 4);
+        label.AddThemeConstantOverride("shadow_offset_y", 2);
+        label.AddThemeConstantOverride("shadow_offset_x", 0);
+        return label;
+    }
+
     private static Label AddLabel(Control parent, string name, string text, Vector2 position, Vector2 size, int font, Color color, int outline = 4)
     {
         var label = MakeLabel(name, text, font, color, outline);
@@ -671,14 +734,67 @@ public partial class WeaponProgressionScreen : Control, ICapstoneScreen
         public bool Completed { get; set; }
         public override void _Draw()
         {
-            // Only the two mainline nodes are linked. The independent jade task has no edge.
-            var start = new Vector2(322, 340);
-            var end = new Vector2(700, 229);
+            // Side tasks have no edges. Mainline progression runs straight upwards.
+            var start = NodeCenters[0];
+            var end = NodeCenters[1];
             var direction = (end - start).Normalized();
             start += direction * 49;
             end -= direction * 49;
             DrawLine(start, end, new Color("14282e"), 6, true);
             DrawLine(start, end, Completed ? new Color("b7c69c") : new Color("78938a"), 2, true);
+        }
+    }
+
+    private partial class QuestEmblem : Control
+    {
+        public int Node { get; init; }
+        public override void _Draw()
+        {
+            var c = Size / 2;
+            var gold = new Color("e1c57c");
+            var cyan = new Color("9bc8c7");
+            switch (Node)
+            {
+                case 3:
+                    DrawColoredPolygon([c + new Vector2(0, -22), c + new Vector2(22, 0),
+                        c + new Vector2(0, 22), c + new Vector2(-22, 0)], cyan);
+                    break;
+                case 4:
+                    DrawColoredPolygon([new(27, 3), new(43, 22), new(46, 35), new(37, 49),
+                        new(17, 49), new(8, 35), new(15, 18), new(18, 33), new(28, 21)], gold);
+                    DrawColoredPolygon([new(28, 25), new(34, 39), new(28, 47), new(21, 39)], cyan);
+                    break;
+                case 5:
+                    DrawRect(new Rect2(9, 20, 36, 29), gold);
+                    DrawArc(new(27, 20), 9, Mathf.Pi, Mathf.Tau, 24, gold, 4, true);
+                    DrawLine(new(17, 38), new(37, 38), Ink, 3, true);
+                    break;
+                case 6:
+                    DrawColoredPolygon([new(13, 45), new(19, 17), new(41, 5), new(44, 23), new(31, 39)], cyan);
+                    DrawLine(new(11, 48), new(36, 15), gold, 3, true);
+                    DrawLine(new(21, 34), new(37, 29), Ink, 2, true);
+                    DrawLine(new(25, 27), new(39, 20), Ink, 2, true);
+                    break;
+                case 7:
+                    for (var row = 0; row < 3; row++)
+                        DrawPolyline([new(5, 24 + row * 10), new(15, 20 + row * 10),
+                            new(26, 25 + row * 10), new(38, 20 + row * 10), new(49, 24 + row * 10)], cyan, 2, true);
+                    DrawLine(new(13, 46), new(42, 7), gold, 6, true);
+                    DrawLine(new(12, 34), new(25, 43), gold, 3, true);
+                    break;
+                case 8:
+                    for (var i = 0; i < 8; i++)
+                        DrawCircle(c + Vector2.FromAngle(i * Mathf.Tau / 8) * 18, 4.5f, gold, true, -1, true);
+                    DrawCircle(c, 5, cyan, true, -1, true);
+                    break;
+                case 9:
+                    DrawColoredPolygon([new(9, 48), new(11, 18), new(18, 6), new(36, 6), new(43, 18),
+                        new(45, 48), new(34, 40), new(27, 48), new(20, 40)], cyan);
+                    DrawCircle(new(21, 23), 3, Ink);
+                    DrawCircle(new(34, 23), 3, Ink);
+                    DrawLine(new(22, 34), new(32, 34), Ink, 2, true);
+                    break;
+            }
         }
     }
 }

@@ -13,6 +13,14 @@ public sealed class ProgressionUiData
     public bool EveryForgeRandom { get; init; }
     public Func<bool> CanClaim { get; init; } = static () => true;
     public Func<int> GetEliteVictories { get; init; } = static () => 0;
+    public Func<int, (int Current, int Required)>? GetNodeProgress { get; init; }
+    public Func<int, (int Current, int Required)>? GetNodeAlternativeProgress { get; init; }
+
+    public (int Current, int Required) Progress(int node) => GetNodeProgress?.Invoke(node)
+        ?? (node == 3 ? (GetEliteVictories(), 5) : (0, 1));
+
+    public (int Current, int Required) AlternativeProgress(int node) => GetNodeAlternativeProgress?.Invoke(node)
+        ?? (node == 8 ? (0, 1) : (0, 18));
 
     public static ProgressionUiData ForPlayer(Player player) => new()
     {
@@ -22,6 +30,8 @@ public sealed class ProgressionUiData
         SelectedWeapon = WeaponSelection.GetWeapon(player),
         EveryForgeRandom = WeaponSelection.IsEveryForgeRandom(player),
         CanClaim = static () => !CombatManager.Instance.IsInProgress,
-        GetEliteVictories = () => WeaponProgression.GetEliteVictories(player)
+        GetEliteVictories = () => WeaponProgression.GetEliteVictories(player),
+        GetNodeProgress = node => WeaponProgression.GetNodeProgress(player, node),
+        GetNodeAlternativeProgress = node => WeaponProgression.GetNodeAlternativeProgress(player, node)
     };
 }

@@ -101,14 +101,14 @@ public class SovereignScythe : MoreWeaponsCardBase
                 await PowerCmd.Apply<DoomPower>(choiceContext, target, doomAmount, Owner.Creature, this);
     }
 
-    protected override void OnUpgrade() { DynamicVars.Damage.UpgradeValueBy(3); }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 
     public void AddDamage(decimal amount)
     {
         AssertMutable();
         DynamicVars.Damage.BaseValue += amount;
         _totalForged += amount;
-        CurrentDamage = DynamicVars.Damage.BaseValue - 3m * CurrentUpgradeLevel;
+        CurrentDamage = DynamicVars.Damage.BaseValue;
         UpdateDoomAmount();
     }
 

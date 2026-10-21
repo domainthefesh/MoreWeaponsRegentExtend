@@ -17,7 +17,6 @@ public sealed class RoyalBrassKnuckles : ForgeableWeaponCardBase
 {
     private bool _generationInitialized;
 
-    public override int MaxUpgradeLevel => 0;
 
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Retain, MyKeywords.MartialFanatic];
 
@@ -35,6 +34,8 @@ public sealed class RoyalBrassKnuckles : ForgeableWeaponCardBase
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay) =>
         await AttackWithWeaponVfx(choiceContext, cardPlay);
+
+    protected override void OnUpgrade() => DynamicVars.Damage.UpgradeValueBy(6m);
 
     public override Task AfterCardEnteredCombat(CardModel card) => card == this
         ? InitializeForCombat()

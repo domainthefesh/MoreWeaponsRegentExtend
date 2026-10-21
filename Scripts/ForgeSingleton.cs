@@ -56,7 +56,21 @@ public class ForgeSingleton : HookedSingletonModel
     }
 
     public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
-        => AfterCardEnteredCombat(card);
+        => card is SovereignBlade { CreatedThroughForge: true }
+            ? ApplyNativeForgeRewards(card) : AfterCardEnteredCombat(card);
+
+    private static async Task ApplyNativeForgeRewards(CardModel card)
+    {
+        await WeaponForgeRewards.ApplyOnCreation(card);
+        WeaponRewardRuntime.Sync(card);
+    }
+
+    public override Task AfterCardChangedPilesLate(CardModel card, PileType oldPileType, AbstractModel? clonedBy)
+        => card is SovereignBlade { CreatedThroughForge: true } && oldPileType == PileType.None
+            ? ApplyNativeForgeRewards(card) : Task.CompletedTask;
+
+    public override int ModifyCardPlayCount(CardModel card, Creature? target, int playCount)
+        => card is SovereignDagger && WeaponRewardRuntime.Has(card, 6) ? playCount + 1 : playCount;
 
     public override CardLocation ModifyCardPlayResultLocation(CardModel card, bool isAutoPlay,
         ResourceInfo resources, CardLocation cardLocation)
@@ -85,13 +99,14 @@ public class ForgeSingleton : HookedSingletonModel
     {
         if (!props.IsPoweredAttack() || cardSource == null)
             return 1m;
+        decimal multiplier = WeaponSpecialization.GetDamageMultiplier(cardSource);
         if (cardSource is SovereignKatana && WeaponRewardRuntime.Has(cardSource, 1) &&
             WeaponRewardRuntime.IsFirstDamage(cardSource, cardPlay))
-            return 1.5m;
+            multiplier *= 1.5m;
         if (cardSource is SovereignDagger && WeaponRewardRuntime.Has(cardSource, 2) &&
             (cardSource.Owner.Gold > 300 || (target != null && target.Monster?.IntendsToAttack != true)))
-            return 3m;
-        return 1m;
+            multiplier *= 3m;
+        return multiplier;
     }
 
     public override Task BeforeAttack(AttackCommand command)

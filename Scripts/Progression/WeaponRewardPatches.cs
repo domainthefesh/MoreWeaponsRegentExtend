@@ -45,6 +45,7 @@ public sealed class WeaponRewardDamagePreviewPatch : IPatchMethod
     public static void Postfix(DynamicVar __instance, CardModel __0, bool __3)
     {
         if (!__3)
-            __instance.PreviewValue += WeaponRewardRuntime.GetBaseAttackBonus(__0);
+            __instance.PreviewValue = (__instance.PreviewValue + WeaponRewardRuntime.GetBaseAttackBonus(__0)) *
+                WeaponSpecialization.GetDamageMultiplier(__0);
     }
 }
